@@ -1,0 +1,84 @@
+<div fxLayout class="fullScreenContainer">
+    <div fxLayout="column" class="listColumn tableBg" fxFlex="25">
+        <div class="genericHeader listHeader" fxLayout fxLayoutAlign="center center">
+            <span class="headerText"> Seleziona utenti </span>
+        </div>
+        <div fxLayout fxLayoutAlign="center center">
+            <mat-form-field appearance="standard" style="width: 80%;">
+                <mat-label>Cerca utente</mat-label>
+                <input matInput [(ngModel)]="nome" (input)="filterItem(input.value)" placeholder="Ricerca a tutto campo" #input>
+                <button mat-button *ngIf="nome" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div mat-subheader><strong>Distributori</strong></div>
+            <ng-container>
+                <button mat-icon-button color="primary" (click)="selectAll('dist')" matTooltip="Seleziona tutti">
+                  <mat-icon>library_add_check</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="deselectAll('dist')" matTooltip="Deseleziona tutti">
+                  <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+
+            </ng-container>
+        </div>
+        <mat-divider></mat-divider>
+
+        <ng-container>
+
+        <mat-selection-list fxFlex #distributori color="primary" [disableRipple]="true" style="overflow-y: auto;">
+            <mat-list-option *ngFor="let dis of distributoriList" [value]="dis">
+                {{dis?.utente?.nome}}
+            </mat-list-option>
+        </mat-selection-list>
+
+        <mat-divider></mat-divider>
+        <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div mat-subheader><strong>Validatori</strong></div>
+            <ng-container>
+                <button mat-icon-button color="primary" (click)="selectAll('val')" matTooltip="Seleziona tutti">
+                  <mat-icon>library_add_check</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="deselectAll('val')" matTooltip="Deseleziona tutti">
+                  <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </ng-container>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-selection-list fxFlex #validatori color="primary" [disableRipple]="true" style="overflow-y: auto;">
+            <mat-list-option *ngFor="let val of validatoriList" [value]="val">
+                {{val?.utente?.nome}}
+            </mat-list-option>
+        </mat-selection-list>
+
+        </ng-container>
+    </div>
+
+    <form [formGroup]="formEmail" (submit)="inviaNotifica()" fxLayout="column" fxFlex >
+        <div class="genericHeader" fxLayout fxLayoutAlign="center center">
+          <span class="headerText"> Nuova notifica </span>
+        </div>
+        <div fxLayout fxLayoutAlign="start center" class="tableBg" style="width: 100%; padding: 0 10% 0 10%">
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Oggetto</mat-label>
+                <input matInput formControlName="titolo">
+            </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="message-input tableBg" fxLayout fxLayoutAlign="center center">
+            <mat-form-field appearance="none" style="width: 94%;">
+                <textarea matInput formControlName="testo"></textarea>
+              </mat-form-field>
+        </div>
+        <div fxLayout fxLayoutAlign="end center" style="padding-right: 3%;">
+            <button mat-raised-button color="primary" [disabled]="!formEmail.valid">
+                <mat-icon>send</mat-icon> Invia notifica
+            </button>
+        </div>
+      </form>
+
+</div>
+

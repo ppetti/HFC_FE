@@ -1,0 +1,40 @@
+@import "../../../../../assets/scss/baseValues";
+
+table {
+    width: 100%;
+  }
+  
+  tr.detail-row {
+    height: 0;
+  }
+  
+  tr.element-row:not(.expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+  
+  .element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .element-detail {
+    overflow: hidden;
+    //display: flex;
+  }
+
+  .table-position{
+    width: 90%;
+    margin: 7vh auto 0 auto;
+  }  
+  .custom-description {
+    padding: 16px;
+  }
+  .customIcon {
+    background-color: $header_color;
+    mat-icon {
+      color: $toolbar_color;
+    }
+  }

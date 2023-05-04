@@ -1,0 +1,79 @@
+<div fxLayout="column" style="height: 100%">
+  <!-- mobile -->
+  <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex fxHide.gt-sm
+    style="overflow-y: auto; width: 100%;">
+
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToHome()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Biglietti</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Stampa biglietti</span>
+      </div>
+    </div>
+
+    <div style="width: 90%;border-bottom: 1px black solid;padding: .5vh;" fxFlex fxLayout="column" fxLayoutAlign="start"
+      *ngFor="let biglietto of bigliettiSelezionati">
+      <div fxLayout fxLayoutAlign="start">
+        <div fxFlex="60" fxLayout="column">
+          <div fxFlex="60" fxLayout="column">
+            <div class="titoloMobileCard">{{biglietto.tipologiaBiglietto.titolo}}</div>
+            <div class="descrizioneMobile">{{biglietto.tipologiaBiglietto.descrizione}}</div>
+          </div>
+        </div>
+        <div fxFlex style="height: 100%;" fxLayout="column" fxLayoutAlign="start">
+          <div fxFlex="30" fxLayout="column" fxLayoutAlign="start">
+            <div class="tipoMobile">tipologia: <span class="highlight700">{{biglietto.bigliettoFull? "adulto" :
+                "minore"}}</span></div>
+          </div>
+          <div fxFlex="30" fxLayout="column" fxLayoutAlign="start" *ngIf="biglietto.bigliettoFull">
+            <div *ngIf="!biglietto.tipologiaBiglietto.macrosettore.gruppoSpeciale" class="tipoMobile">Prezzo: <span
+                class="highlight700">{{biglietto.tipologiaBiglietto.prezzo_full.toFixed(2)}}€</span></div>
+          </div>
+          <div fxFlex="30" fxLayout="column" fxLayoutAlign="start" *ngIf="!biglietto.bigliettoFull">
+            <div *ngIf="!biglietto.tipologiaBiglietto.macrosettore.gruppoSpeciale" class="tipoMobile">Prezzo: <span
+                class="highlight700">{{biglietto.tipologiaBiglietto.prezzo_child.toFixed(2)}}€</span></div>
+          </div>
+
+        </div>
+
+      </div>
+      <div fxLayout fxLayoutAlign="end" fxLayoutGap="10vw">
+        <span fxLayout fxLayoutAlign="center center" *ngIf="biglietto.stampato && biglietto.stampaCorretta == 1"
+          style="color: green; font-weight: bolder;">Stampa effettuata correttamente</span>
+        <span fxLayout fxLayoutAlign="center center" *ngIf="biglietto.stampato && biglietto.stampaCorretta == 2"
+          style="color: darkred; font-weight: bolder;">Errore nella stampa, riprovare</span>
+        <button mat-raised-button color="primary" (click)="effettuaStampa(biglietto)">
+          <mat-icon>print</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex.gt-sm="0 0 10vh" fxFlex.lt-md="0 0 10vh" style="background-color: transparent;position: sticky;" fxLayout
+    fxLayoutAlign="center space-between" [class.hidden]="localDevicesRecuperati ? false : true">
+    <div fxLayout fxLayoutAlign="center center">
+      Seleziona stampante: <select id="selected_device" (change)="onDeviceSelected($event)"></select>
+    </div>
+    <!-- <div fxLayout fxLayoutAlign="center center">
+      <button mat-raised-button color="primary" (click)="writeToSelectedPrinter()">
+        <mat-icon>print</mat-icon> stampa biglietti
+      </button>
+    </div> -->
+  </div>
+
+  <div fxFlex.gt-sm="0 0 10vh" fxFlex.lt-md="0 0 10vh" style="background-color: transparent;position: sticky;" fxLayout
+    fxLayoutAlign="center space-between" [class.hidden]="!localDevicesRecuperati ? false : true">
+    <div fxLayout fxLayoutAlign="center center">
+      <button mat-raised-button color="primary" (click)="effettuaRicercaLocalDevice()">
+        Trova stampante
+      </button>
+    </div>
+  </div>
+
+</div>

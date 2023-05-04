@@ -1,0 +1,214 @@
+<div fxLayout="column" fxLayoutALign="center center" style="height: 100%;">
+  <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+    <div class="title">
+      Storico chiusure
+    </div>
+    <div class="subTitle">
+      visualizza chiusura
+    </div>
+  </div>
+  <div fxFlex="5">
+  </div>
+
+  <div fxFlex="85" fxLayout fxLayout="start">
+    <div fxFlex="40" fxLayout="column" fxLayoutAlign="start center" style="border-right: 1px solid rgba(0, 0, 0, 0.1);">
+      <div fxFlex="5" fxLayout fxLayoutAlign="center center">
+        <div class="section-title">Utente</div>
+      </div>
+      <div *ngIf="utente?.ruolo.nome_ruolo == 'Rivenditore'" fxFlex="5"></div>
+      <div *ngIf="utente?.ruolo.nome_ruolo != 'Rivenditore'" fxFlex="20"></div>
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="profile-container">
+        <div fxFlex class="icon-container">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <span class="nome">{{utente?.nome}}</span>
+        <div fxLayout="column" fxLayoutAlign="space-between center" class="info-container">
+          <mat-form-field class="input-container">
+            <mat-label>E-mail</mat-label>
+            <input matInput disabled value="{{utente?.login}}">
+          </mat-form-field>
+          <mat-form-field class="input-container">
+            <mat-label>Ruolo</mat-label>
+            <input matInput disabled value="{{utente?.ruolo.nome_ruolo}}">
+          </mat-form-field>
+          <mat-form-field *ngIf="utente?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+            <mat-label>Titolare</mat-label>
+            <input matInput disabled value="{{distributore?.titolare}}">
+          </mat-form-field>
+          <mat-form-field *ngIf="utente?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+            <mat-label>Città</mat-label>
+            <input matInput disabled value="{{distributore?.citta}}">
+          </mat-form-field>
+          <mat-form-field *ngIf="utente?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+            <mat-label>Indirizzo</mat-label>
+            <input matInput disabled value="{{distributore?.indirizzo}}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="start center">
+      <div fxFlex="5" fxLayout fxLayoutAlign="center center">
+        <div class="section-title">Storico chiusure</div>
+      </div>
+      <div fxFlex="5"></div>
+      <div fxLayout fxLayoutAlign="space-around center" style="width: 100%;">
+        <mat-form-field appearance="standard">
+          <mat-label>Seleziona una data</mat-label>
+          <input matInput [matDatepicker]="picker" (dateInput)="OnDateChange($event.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="isChiusuraAlreadyPresent && dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" [disabled]="!isChiusuraAlreadyPresent" (click)="downloadChiusura()">
+            <mat-icon>download</mat-icon> Download PDF
+          </button>
+          <mat-error *ngIf="!isChiusuraAlreadyPresent">Chiusura mancante!</mat-error>
+        </div>
+        <div *ngIf="!isChiusuraAlreadyPresent && dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" (click)="effettuaChiusura()">
+            <mat-icon>assignment_late</mat-icon> Effettua la chiusura
+          </button>
+          <mat-error *ngIf="!isChiusuraAlreadyPresent">Chiusura non effettuata!</mat-error>
+        </div>
+        <div *ngIf="dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" *ngIf="!isDistributore" (click)="downloadReportFermate()">
+              <mat-icon>download</mat-icon>
+              <span>Report fermate</span>
+            </button>
+        </div>
+
+
+      </div>
+      <div fxFlex="85" fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+        <div *ngIf="dateToDisplay" class="card-anteprima" fxLayout="column" fxLayoutAlign="space-around">
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <span class="titolo-entry-chiusura">Anteprima</span>
+            <span class="titolo-entry-chiusura">{{dateToDisplay}}</span>
+          </div>
+          <!-- <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti interi emessi:</span><span>x{{nInteri}}</span>
+                    </div>
+                    <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti ridotti emessi:</span><span>x{{nRidotti}}</span>
+                    </div> -->
+          <div fxFlex fxLayout="column" *ngFor="let biglietto of bigliettiVendutiList">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span><strong>{{biglietto.tipologiaBiglietto.titolo}}:</strong></span>
+            </div>
+            <div *ngIf="biglietto.nBigliettiInteri > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti interi emessi:</span><span>x{{biglietto.nBigliettiInteri}}</span>
+            </div>
+            <div *ngIf="biglietto.nBigliettiRidotti > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti ridotti emessi:</span><span>x{{biglietto.nBigliettiRidotti}}</span>
+            </div>
+
+          </div>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>n° biglietti totali emessi:</span><span>x{{nInteri + nRidotti}}</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. ridotti:</span><span>{{totRidotti?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. interi:</span><span>{{totInteri?.toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="!distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>pagamenti in contanti:</span><span>{{totContanti?.toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="!distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>pagamenti elettronici:</span><span>{{(totInteri + totRidotti - totContanti).toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>margine distributore:</span><span>{{(totInteri + totRidotti -
+              this.prezzoRivenditore)?.toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>tot. incassi senza margine:</span><span>{{(totInteri + totRidotti).toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>tot. incassi:</span><span>{{(totInteri + totRidotti - (totInteri + totRidotti -
+              this.prezzoRivenditore)).toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="!distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>tot. incassi:</span><span>{{(totInteri + totRidotti).toFixed(2)}}€</span>
+          </div>
+
+          <div *ngIf="!distributore && validatiPerTipologia.length > 0" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>&nbsp;</span>
+          </div>
+
+          <div *ngIf="!distributore && validatiPerTipologia.length > 0" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span><strong>Biglietti validati:</strong></span>
+          </div>
+          <div *ngIf="!distributore" fxFlex fxLayout="column">
+            <div fxFlex fxLayout="column" *ngFor="let biglietto of validatiPerTipologia">
+              <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                <span><strong>{{biglietto.tipologia}}:</strong></span>
+              </div>
+              <div *ngIf="biglietto.nAdult > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti interi emessi:</span><span>x{{biglietto.nAdult}}</span>
+              </div>
+              <div *ngIf="biglietto.nChild > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti ridotti emessi:</span><span>x{{biglietto.nChild}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>&nbsp;</span>
+          </div>
+
+          <div *ngIf="hasOta && !distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span><strong>Biglietti validati OTA: </strong></span>
+          </div>
+
+          <div *ngFor="let distributoreBiglietti of distributoriOta" fxFlex fxLayout="column" fxLayoutAlign="space-between" class="entry-sublist">
+            <span *ngIf="distributoreBiglietti.listaBiglietti?.length > 0"><strong>{{distributoreBiglietti.nome}}: </strong></span>
+            <div style="margin-left: 10px;" fxFlex fxLayout="column" *ngFor="let biglietto of distributoreBiglietti.listaBiglietti">
+              <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                <span><strong>{{biglietto.tipologia}}:</strong></span>
+              </div>
+              <div *ngIf="biglietto.nAdult > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti interi validati:</span><span>x{{biglietto.nAdult}}</span>
+              </div>
+              <div *ngIf="biglietto.nChild > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti ridotti validati:</span><span>x{{biglietto.nChild}}</span>
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <div *ngIf="validatiVox.length > 0 && !distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span><strong>Biglietti validati Vox: </strong></span>
+          </div>
+          <div fxFlex fxLayout="column" *ngIf="validatiVox.length > 0 && !distributore">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti Vox validati:</span><span>x{{validatiVox.length}}</span>
+            </div>
+            <br>
+          </div>
+
+          <div *ngIf="!distributore" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>tot. validazioni:</span><span>x{{totValidati + this.validatiVox.length}}</span>
+          </div>
+        </div>
+        <div *ngIf="!dateToDisplay">
+          <div class="entry-sublist">Seleziona una data per avere l'anteprima della giornata.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>

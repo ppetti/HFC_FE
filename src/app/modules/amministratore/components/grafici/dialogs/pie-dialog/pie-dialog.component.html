@@ -1,0 +1,43 @@
+<div fxLayout fxLayoutAlign="start start">
+  <mat-slide-toggle [(ngModel)]="isChecked" color="primary"  (ngModelChange)="slideChange($event)">Biglietti venduti per tipologia</mat-slide-toggle>
+</div>
+
+<div style="width: 100%;height: 100%;" fxLayout="column">
+  <div fxFlex=80 fxLayout style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+    <div style="padding: 5%;" fxFlex>
+      <app-grafico-torta [options]="customOption"></app-grafico-torta>
+    </div>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+    <div class="filter-title" fxLayout fxLayoutAlign="center center">
+      <mat-icon>filter_alt</mat-icon>Filtra
+    </div>
+    <div *ngIf="isChecked" fxFlex=10></div>
+    <div *ngIf="!isChecked" fxFlex=15></div>
+    <form *ngIf="isChecked" [formGroup]="formMacro" fxLayout="row" fxLayoutAlign="space-around center" (submit)="submit()" style="width: 90%">
+      <mat-form-field appearance="standard">
+        <mat-label>Seleziona mese</mat-label>
+        <mat-select [formControl]="formMacro['controls'].mese" [compareWith]="compareByName">
+          <mat-option *ngFor="let month of sortedMonths" [value]="month">{{month}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="standard" style="width: 50%;">
+        <mat-label>Seleziona macrocategorie</mat-label>
+        <mat-select [formControl]="formMacro['controls'].macrosettoreList" [compareWith]="compareById" multiple>
+          <mat-option *ngFor="let macrosettore of macrosettori" [value]="macrosettore">{{macrosettore.nome}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">
+        <mat-icon>pie_chart</mat-icon> Aggiorna grafico</button>
+    </form>
+    <div *ngIf="!isChecked" style="width: 100%;" class="list-border">
+      <mat-selection-list #month [multiple]="false" class="custom-list"
+        [(ngModel)]="selectedOption" (ngModelChange)="onNgModelChange($event)">
+        <mat-list-option *ngFor="let month of sortedMonths;" [value]="month"
+          [class.mese-selected]="month === months[mm - 1] && selectedOption == null">
+          {{month}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </div>
+</div>

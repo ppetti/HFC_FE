@@ -1,0 +1,101 @@
+<div style="height: 100%" fxLayout="column">
+
+  <div *ngIf="loading$ | async" class="loader-container">
+    <mat-spinner style="top: 50%; left: 50%;"></mat-spinner>
+  </div>
+
+  <!-- <div *ngIf="loaderService.isLoading | async" class="loader-container">
+    <mat-spinner style="top: 50%; left: 50%;"></mat-spinner>
+  </div> -->
+
+  <mat-toolbar color="" class="HFCToolbar">
+    <div fxShow="true" fxHide.gt-sm="true" class="headerElement">
+      <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isAuth">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <div><img style="width: 150px;height: 100%;" src="assets/logoEPittogramma.png" fxLayout fxLayoutAlign="center center" fxShow="true" fxHide.gt-sm="true"></div>
+    <div><img style="width: 190px;height: 100%;" src="assets/logoEPittogramma.png" fxLayout fxLayoutAlign="center center" fxHide="true" fxShow.gt-sm="true"></div>
+    <span fxFlex class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true" fxLayout fxLayoutAlign="center center" style="height: 100%;" *ngIf="isAuth">
+
+
+
+      <div *ngFor="let menuItem of menuItems">
+        <a *ngIf="!menuItem.childrens" mat-button [routerLink]="[''].concat(menuItem.route?.split('/'))"
+          [routerLinkActive]="'active'" style="height: 100%;" fxLayout fxLayoutAlign="center center">
+          {{menuItem.title}}
+        </a>
+
+        <a *ngIf="menuItem.childrens" mat-button style="height: 100%;" class="navElement" [matMenuTriggerFor]="gestione"
+          fxHide.lt-md fxLayout fxLayoutAlign="center center">
+          <span>{{menuItem.title}}</span>
+          <mat-icon>{{menuItem.icon}}</mat-icon>
+        </a>
+        <mat-menu #gestione="matMenu" style="max-width: none!important;">
+          <button mat-menu-item *ngFor="let child of menuItem.childrens" [routerLink]="[''].concat(child.route?.split('/'))">
+            <span>{{child.title}}</span>
+          </button>
+        </mat-menu>
+      </div>
+
+    </div>
+    <a (click)="openAccedi()" mat-button class="navElement" *ngIf="!isAuth">
+      <span>Accedi</span>
+      <mat-icon>login</mat-icon>
+    </a>
+    <!-- Mobile -->
+    <a mat-button style="height: 100%;" class="navElement" *ngIf="isAuth" (click)="goToProfilo()"
+    fxHide.gt-sm fxLayout fxLayoutAlign="center center">
+      <mat-icon style="margin-right: 5px;">account_circle</mat-icon>
+      <span>{{userInfo?.nome.toUpperCase()}}</span>
+    </a>
+    <!-- PC -->
+    <a mat-button style="height: 100%;" class="navElement" *ngIf="isAuth" [matMenuTriggerFor]="userMenu"
+    fxHide.lt-md fxLayout fxLayoutAlign="center center">
+      <mat-icon style="margin-right: 5px;">account_circle</mat-icon>
+      <span>{{userInfo?.nome.toUpperCase()}}</span>
+    </a>
+    <mat-menu #userMenu="matMenu" style="max-width: none!important;">
+      <button mat-menu-item (click)="goToProfilo()">
+        <mat-icon>account_box</mat-icon>
+        <span>Profilo</span>
+      </button>
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Esci</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlex class="mainBG">
+
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
+      <div fxLayout="column">
+        <div *ngFor="let menuItem of menuItems">
+          <a mat-button *ngIf="!menuItem.childrens" [routerLink]="[''].concat(menuItem.route?.split('/'))"
+            [routerLinkActive]="'active'" fxLayout fxLayoutAlign="start center">
+            <mat-icon style="margin-right: 10px;">{{menuItem.icon}}</mat-icon> {{menuItem.title}}
+          </a>
+          <a mat-button *ngIf="menuItem.childrens" [matMenuTriggerFor]="gestione" fxLayout fxLayoutAlign="start center">
+          <mat-icon style="margin-right: 10px;">{{menuItem.icon}}</mat-icon> {{menuItem.title}}
+          </a>
+          <mat-menu #gestione="matMenu" style="max-width: none!important;">
+            <button mat-menu-item *ngFor="let child of menuItem.childrens" [routerLink]="[''].concat(child.route?.split('/'))">
+              <mat-icon>{{child.icon}}</mat-icon>
+              <span>{{child.title}}</span>
+            </button>
+          </mat-menu>
+        </div>
+        <a mat-button class="sidenavEntry" fxLayout fxLayoutAlign="start center" (click)="logOut(); sidenav.close();">
+          <mat-icon style="margin-right: 10px;">exit_to_app</mat-icon> Esci
+        </a>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div style="overflow-y: auto; overflow-x: hidden;" fxFlex="1 1 100%">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,132 @@
+
+<div fxLayout fxLayout.xs="column" fxLayout.sm="column" class="fullScreenContainer" style="overflow-y: auto;" fxLayoutAlign="space-around start">
+  <div fxLayout="column" class="box" fxFlex="20" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxLayoutAlign="start center" style="overflow-y: auto;margin-top: 2%;height: 90%;" >
+    <div fxLayout="row" class="filter-title filtri" fxLayout fxLayoutAlign="center center" >
+      <mat-icon >filter_alt</mat-icon>Compila il modulo di registrazione
+    </div>
+      <mat-divider></mat-divider>
+      <form [formGroup]="formMacro" fxLayout="column"  (submit)="submit()" style="width: 60%;margin-top: 10%;" >
+
+        <mat-form-field >
+          <mat-label>Operatore</mat-label>
+          <input type="text"
+                 aria-label="Number"
+                 matInput
+                 formControlName="validatore"
+                 [matAutocomplete]="autoOperatore">
+          <mat-autocomplete #autoOperatore="matAutocomplete" [displayWith]="displayFnOperatore.bind(this)">
+            <mat-option *ngFor="let option of filteredOptionsOperatore | async" [value]="option">
+              {{option.utente.nome}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error>
+            <div *ngIf="!formMacro.valid">
+              Selezionare una opzione
+            </div>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-label>Tipologia biglietto</mat-label>
+          <input type="text"
+                 aria-label="Number"
+                 matInput
+                 formControlName="tipologia"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+            <mat-option *ngFor="let tipologia of filteredOptionsTipologia | async" [value]="tipologia">
+              {{tipologia.titolo}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error>
+            <div *ngIf="!formMacro.valid">
+              Selezionare una opzione
+            </div>
+          </mat-error>
+        </mat-form-field>
+
+
+          <mat-label class="margini-verticali">Fascia di età:</mat-label >
+          <mat-radio-group [formControl]="formMacro['controls'].eta" aria-label="Select an option" required>
+            <mat-radio-button value="true" style="margin-right: 10%;" >Adult</mat-radio-button>
+            <mat-radio-button value="false" >Child</mat-radio-button>
+          </mat-radio-group>
+
+          <mat-form-field class="margini-verticali">
+            <mat-label>Quantità biglietti:</mat-label>
+            <input matInput type="number" formControlName="numeroBiglietti" required>
+          </mat-form-field>
+
+          <mat-form-field  style="margin-bottom: 20%;">
+            <mat-label>Inserisci la data di validazione</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Il" [formControl]="formMacro['controls'].data" disabled>
+              <mat-hint>Selezionare dal calendario</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+
+          <!-- <mat-form-field class="margini-verticali">
+            <mat-label>Numero di serie di partenza:</mat-label>
+            <input matInput type="number" formControlName="numeroPartenzaSerie" required>
+          </mat-form-field>
+
+          <mat-form-field class="margini-verticali">
+            <mat-label>Numero di serie finale:</mat-label>
+            <input matInput type="number" formControlName="numeroFinaleSerie" required>
+          </mat-form-field> -->
+
+        <div fxLayout fxLayoutAlign="center" class="margini-verticali">
+          <button mat-raised-button color="primary" [disabled]="!formMacro.valid">
+              <mat-icon>filter_alt</mat-icon>Registra
+          </button>
+        </div>
+
+      </form>
+
+  </div>
+
+  <div fxLayout="column" fxFlex="70" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100"  style="overflow-y: auto;height: 90%; width: 90%;margin-top: 2%;" >
+    <div class="table-position">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field style="margin-right: 1%;" fxFlex="20">
+          <mat-label>Cerca</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ricerca a tutto campo" #input>
+        </mat-form-field>
+        <div fxFlex></div>
+      </div>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="validatore">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> OPERATORE </th>
+              <td mat-cell *matCellDef="let row"> {{row.validatore.utente.nome}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="numeroTotali">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTALE ASSEGNATI </th>
+              <td mat-cell *matCellDef="let row"> {{row.numeroTotali}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="numeroDisponibili">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTALE DISPONIBILI </th>
+              <td mat-cell *matCellDef="let row"> {{row.numeroDisponibili}} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderHFC"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Nessun elemento corrsiponde al filtro di ricerca "{{input.value}}"</td>
+            </tr>
+          </table>
+    
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+
+

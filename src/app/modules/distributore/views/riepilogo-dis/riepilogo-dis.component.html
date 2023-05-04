@@ -1,0 +1,255 @@
+<div style="height: 100%">
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToCarrello()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Riepilogo</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Conferma acquisto </span>
+      </div>
+    </div>
+
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Riepilogo Ordine</span>
+          </div>
+          <div fxFlex fxLayout="column" *ngFor="let biglietto of carrello">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span><strong>{{biglietto.titolo}}:</strong></span>
+            </div>
+            <div *ngIf="biglietto.buyCountAdult != 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti interi emessi:</span><span>x{{biglietto.buyCountAdult}}</span>
+            </div>
+            <div *ngIf="biglietto.buyCountChild != 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti ridotti emessi:</span><span>x{{biglietto.buyCountChild}}</span>
+            </div>
+
+            <br>
+
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>n° biglietti totali:</span><span>x{{nRidotti + nAdulti}}</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. al cliente:</span><span>{{prezzoCliente?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>Da pagare:</span><span>{{prezzoRivenditore?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Margine:</span><span>+ {{margine?.toFixed(2)}}€</span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Compila questionario</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <div class="info-icon">
+              <mat-icon>info</mat-icon>
+            </div>
+            <span>Compilando il breve questionario ci aiuterai a migliorare il nostro servizio. Grazie!</span>
+          </div>
+          <!-- <div fxLayout fxLayoutAlign="center" class="entry-sublist">
+                        <mat-form-field style="width: 60%;" >
+                            <mat-label>Nazionalità cliente</mat-label>
+                            <input matInput placeholder="Ex. Italiano">
+                        </mat-form-field>
+                    </div> -->
+
+          <!-- <div fxLayout fxLayoutAlign="center" class="entry-sublist">
+                      <mat-form-field style="width: 60%;">
+                        <mat-label>Nazione di provenienza</mat-label>
+                        <mat-select [formControl]="formRiepilogo['controls'].nazione">
+                            <ng-container *ngFor="let nazione of listaNazioni">
+                            <mat-option [value]="nazione">{{nazione}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                    </div> -->
+
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <!-- <mat-form-field style="width: 60%;">
+                          <mat-label>Nazione di appartenenza</mat-label>
+                          <input type="text"
+                                 aria-label="Number"
+                                 matInput
+                                 formControlName="nazione"
+                                 [matAutocomplete]="auto">
+                          <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                              {{option}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field> -->
+            <mat-form-field style="width: 60%;">
+              <mat-label>Nazionalità</mat-label>
+              <mat-select formControlName="nazione" placeholder="nazione" [compareWith]="compareById">
+                <ng-container *ngFor="let nazione of listaNazioni">
+                  <mat-option [value]="nazione">{{nazione}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Tipologia gruppo</mat-label>
+              <mat-select formControlName="tipoGruppo" placeholder="Gruppo" [compareWith]="compareById">
+                <ng-container *ngFor="let tipoGruppo of tipoGruppoList">
+                  <mat-option [value]="tipoGruppo">{{tipoGruppo.descrizione}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Fermata</mat-label>
+              <mat-select formControlName="fermata" placeholder="Fermata" [compareWith]="compareById">
+                <ng-container *ngFor="let fermata of fermateList">
+                  <mat-option [value]="fermata">{{fermata.nomeVisualizzato}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+        </div>
+      </div>
+
+
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start" *ngIf="distributore?.abituale">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Seleziona metodo di pagamento</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="card" fxLayout fxLayoutAlign="start center"
+              *ngIf="prezzoRivenditore <= distributore?.creditoDisponibile"
+              [class.card-selected]="paymentMethod == 'credito'" (click)="cardSelection('credito')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">monetization_on</mat-icon>
+              </div>
+              <div fxFlex="75" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Scala il credito</span>
+                <span class="info-sublist">Credito disponibile: {{distributore?.creditoDisponibile.toFixed(2)}}€</span>
+              </div>
+            </div>
+
+            <!-- <div class="card card-disabled" fxLayout fxLayoutAlign="start center" *ngIf="prezzoRivenditore > distributore?.credito">
+                          <div fxFlex="25">
+                              <mat-icon class="icon-size">payments</mat-icon>
+                          </div>
+                          <div fxFlex="75" fxLayout="column" fxLayoutAlign="center">
+                              <span class="card-title">Scala il credito</span>
+                              <span class="info-sublist">Credito disponibile: {{distributore?.credito.toFixed(2)}}€</span>
+                          </div>
+                      </div> -->
+
+            <div class="card" fxLayout fxLayoutAlign="start center" style="margin-bottom: 5%;"
+              [class.card-selected]="paymentMethod == 'pos'" (click)="cardSelection('pos')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">credit_card</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga con carta</span>
+                <span class="info-sublist">Credit card payment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start" *ngIf="!distributore?.abituale">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Seleziona metodo di pagamento</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+
+            <div class="card" fxLayout fxLayoutAlign="start center" style="margin-bottom: 5%;"
+              [class.card-selected]="paymentMethod == 'pos'" (click)="cardSelection('pos')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">credit_card</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga con carta</span>
+                <span class="info-sublist">Credit card payment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-riepilogo" id="info-carta" fxLayout fxLayoutAlign="start"
+        [class.hiddenForm]="!isPagamentoConCarta">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Informazioni Carta</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center"
+            style="padding-top: 10px;padding-bottom: 10px;width: 100%;border: 1px solid #ccc; background-color: #fafafa;">
+            <form ngNoForm id="payment-form" class="payment-form" style="width: 100%;" (submit)="submit($event)">
+
+              <!-- <label for="card-element">
+                                          Card
+                                        </label> -->
+              <div id="card-element">
+              </div>
+
+              <div id="card-errors" role="alert"></div>
+
+              <button id="submit" style="display: none!important;" class="stripe-button">Pay</button>
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- <div class="container-riepilogo" fxLayout fxLayoutAlign="start" [class.hiddenForm]="!isPagamentoConCarta">
+            <div fxFlex fxLayout="column">
+              <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+                <span>Informazioni Carta</span>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="center center" style="padding-top: 10px;padding-bottom: 10px;width: 100%;border: 1px solid #ccc; background-color: #fafafa;">
+                <form ngNoForm id="payment-form" class="payment-form" style="width: 100%;" (submit)="submit($event)">
+
+                  <div id="card-element">
+                  </div>
+
+                  <div id="card-errors" role="alert"></div>
+
+                  <button id="submit" style="display: none!important;"  class="stripe-button">Pay</button>
+                </form>
+              </div>
+            </div>
+
+
+          </div> -->
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 10vh;width: 100%;">
+      <button mat-raised-button color="primary" (click)="acquista()"
+        [disabled]="distributore?.abituale && !paymentMethod">
+        Acquista ora
+      </button>
+    </div>
+
+  </div>
+</div>

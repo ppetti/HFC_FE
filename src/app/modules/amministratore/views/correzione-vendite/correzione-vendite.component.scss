@@ -1,0 +1,21 @@
+@import "../../../../../assets/scss/_baseValues.scss";
+
+.filtri {
+  background-color: $header_color;
+  color: #F4F4F4;
+  font-family:"Helvetica Neue", sans-serif;
+  font-size: 22px;
+  height: 56px;
+}
+
+.fitriBox {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2%;
+  background-color: white;
+  box-shadow: 5px 5px 5px rgb(190, 190, 190);
+}
+
+td, th {
+  width: 20%;
+}

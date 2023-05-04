@@ -1,0 +1,119 @@
+<div style="height: 100%">
+  <!-- Mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToLand()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Dati giornata</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Dichiara le specifiche della giornata </span>
+      </div>
+    </div>
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+      <div class="container-chiusura" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-chiusura">
+            <span>Stato compilazione dati</span>
+          </div>
+          <div fxLayout fxLayoutAlign="start" class="info-sublist">
+            <div class="info-icon">
+              <mat-icon>info</mat-icon>
+            </div>
+            <span>I dati della giornata vanno compilati entro le 23.59 del giorno corrente.</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>{{isDatiGiornalieriAlreadyPresent ? "La compilazione dei dati giornaliera è stata già effettuata" : "La compilazione dei dati relativa alla giornata odierna non è ancora stata effettuata"}}.</span>
+          </div>
+        </div>
+      </div>
+      <div class="container-chiusura" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-chiusura">
+            <span>Dati della giornata</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <span>Documento gestionale</span>
+          </div>
+
+          <form *ngIf="!isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Autista</mat-label>
+              <mat-select formControlName="autista" placeholder="Autista" [compareWith]="compareById">
+                <ng-container *ngFor="let autista of autistiList">
+                  <mat-option [value]="autista">{{autista.nome}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field class="input-container">
+              <mat-label>Autista</mat-label>
+              <input matInput readonly value="{{datiGiornalieri?.autista.nome}}">
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="!isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Bus</mat-label>
+              <mat-select formControlName="bus" placeholder="Bus" [compareWith]="compareById">
+                <ng-container *ngFor="let bus of busList">
+                  <mat-option [value]="bus">{{bus.numeroVettura}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+          class="entry-sublist">
+            <mat-form-field class="input-container">
+              <mat-label>Bus</mat-label>
+              <input matInput readonly value="{{datiGiornalieri?.bus.numeroVettura}}">
+            </mat-form-field>
+          </form>
+
+
+          <form *ngIf="!isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+          class="entry-sublist">
+          <mat-form-field style="width: 60%;">
+            <mat-label>Turno</mat-label>
+            <mat-select formControlName="tipoTurno" placeholder="Turno" [compareWith]="compareById">
+              <ng-container *ngFor="let tipoTurno of tipiTurnoList">
+                <mat-option [value]="tipoTurno">{{tipoTurno.tipoTurno}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </form>
+
+
+        <form *ngIf="isDatiGiornalieriAlreadyPresent" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+          class="entry-sublist">
+          <mat-form-field class="input-container">
+            <mat-label>Turno</mat-label>
+            <!-- <mat-label style="color: black;" >Turno</mat-label> -->
+            <input matInput readonly value="{{datiGiornalieri?.tipoTurno.tipoTurno}}">
+          </mat-form-field>
+        </form>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 23vh;width: 100%;">
+      <button mat-raised-button color="primary" [disabled]="isDatiGiornalieriAlreadyPresent" (click)="effettuaCompilazioneDati()">
+        Effettua la compilazione
+      </button>
+    </div>
+  </div>

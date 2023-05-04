@@ -1,0 +1,22 @@
+@import '../../../../assets/scss/baseValues';
+
+:host {
+  height: 100%;
+}
+
+.homePageTitle {
+  font-size: 54px;
+  font-weight: 800;
+  font-family: 'Londrina Solid', serif;
+  color: $main_color;
+}
+
+.loginHomePageButton {
+    width: 60%;
+    min-width: 200px;
+    border-radius: 20px;
+}
+
+.homePageSubTitle {
+  font-size: 18px;
+}

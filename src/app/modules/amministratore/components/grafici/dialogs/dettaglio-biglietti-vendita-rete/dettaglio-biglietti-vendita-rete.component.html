@@ -1,0 +1,140 @@
+
+<div fxLayout fxLayout.xs="column" fxLayout.sm="column" class="fullScreenContainer" style="overflow-y: auto;">
+
+  <div fxLayout="column" class="listColumn tableBg">
+    <div class="filter-title" fxLayout fxLayoutAlign="center center">
+      <mat-icon>filter_alt</mat-icon>Filtra
+    </div>
+      <mat-divider></mat-divider>
+      <form [formGroup]="formMacro" fxLayout="column" fxLayoutAlign="space-around center" (submit)="submit()" style="width: 90%">
+
+        <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div mat-subheader><strong>Tipologie</strong></div>
+        </div>
+
+        <mat-form-field appearance="standard" style="width: 90%;">
+          <mat-label>Seleziona le tipologie</mat-label>
+          <mat-select [formControl]="formMacro['controls'].tipologiaList" [compareWith]="compareById" multiple>
+            <mat-option *ngFor="let tipologia of bigliettiPerTipo" [value]="tipologia">{{tipologia.titolo}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <ng-container>
+
+
+      <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div mat-subheader><strong>Periodo</strong></div>
+      </div>
+
+      </ng-container>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Inserisci un intervallo di date</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Da" [formControl]="formMacro['controls'].dataDa">
+            <input matEndDate placeholder="A" [formControl]="formMacro['controls'].dataA">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>dall'ora</mat-label>
+          <mat-select [formControl]="formMacro['controls'].oraInizio" (selectionChange)="aggiustaOreList()">
+            <mat-option *ngFor="let ora of orarioList" [value]="ora">
+              {{ora}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>fino alle</mat-label>
+          <mat-select [formControl]="formMacro['controls'].oraFine" (selectionChange)="aggiustaOreList()">
+            <mat-option *ngFor="let ora of orarioList" [value]="ora">
+              {{ora}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxLayout fxLayoutAlign="center" style="padding-bottom: 5%;margin-top: 10%;">
+          <button mat-raised-button color="primary" style=" width: 150px;" [disabled]="!formMacro.valid">
+              <mat-icon>filter_alt</mat-icon> Applica filtri
+          </button>
+      </div>
+
+      </form>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center" style="width: 90%">
+
+        <!-- <div *ngIf="tipologieVendutiFiltrati.length > 0" fxLayout fxLayoutAlign="center" style="padding-bottom: 5%;margin-top: 5%;">
+          <button mat-raised-button (click)="downloadExcel()" style="background-color: #26b326; color: white; width: 150px;">
+              <mat-icon>download</mat-icon> Scarica excel
+          </button>
+        </div> -->
+
+    </div>
+
+  </div>
+
+  <div fxLayout="column" fxFlex>
+
+
+
+  <div fxLayout="column" fxFlex="0 0 90%" style="overflow-y: auto;">
+
+    <div class="genericHeader" fxLayout fxLayoutAlign="center center">
+      <span class="headerText"> Dettagli report per tipologia</span>
+    </div>
+    <div *ngIf="tipologieVendutiFiltrati.length == 0" fxLayout fxLayoutAlign="center center"
+      style="font-size: 16px;margin: 40px;"> <strong> Nessun risultato nell'intervallo di tempo selezionato</strong></div>
+    <div class="" style="width: 100%;" fxFlex fxLayout="column" *ngIf="tipologieVendutiFiltrati.length > 0">
+      <!-- <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex></div>
+      </div> -->
+      <div fxFlex fxLayout="column" class="">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="titolo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TITOLO </th>
+            <td mat-cell *matCellDef="let row"> {{row.titolo}}</td>
+            <td mat-footer-cell *matFooterCellDef>TOTALE IN EURO</td>
+          </ng-container>
+
+          <ng-container matColumnDef="numeroBiglietti">
+            <th mat-header-cell *matHeaderCellDef> N. BIGLIETTI </th>
+            <td mat-cell *matCellDef="let row"> {{row.totBiglietti}}</td>
+            <td mat-footer-cell *matFooterCellDef>{{totaleBiglietti}}</td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="biglietti ridotti">
+            <th mat-header-cell *matHeaderCellDef> BIGLIETTI RIDOTTI </th>
+            <td mat-cell *matCellDef="let row"> {{row.totRidotti}} €</td>
+            <td mat-footer-cell *matFooterCellDef>{{totaleRidottiFooter}} €</td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="prezzoValidazioneTotale">
+            <th mat-header-cell *matHeaderCellDef> TOTALE PER TIPO</th>
+            <td mat-cell *matCellDef="let row"> {{row.prezzoValidazioneTotale.toFixed(2)}} €</td>
+            <td mat-footer-cell *matFooterCellDef>{{totaleFooter.toFixed(2)}} €</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderHFC"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
+          <!-- <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">Nessun elemento corrsiponde al filtro di ricerca "{{input.value}}"</td>
+                  </tr> -->
+        </table>
+        <mat-paginator #paginatorTab1 [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" fxFlex></mat-paginator>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+
+

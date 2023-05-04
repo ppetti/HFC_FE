@@ -1,0 +1,111 @@
+<div fxLayout="column" fxLayoutALign="center center" style="height: 100%;">
+  <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+    <div class="title">
+      Storico turni
+    </div>
+    <div class="subTitle">
+      visualizza i dati dei turni dell'operatore
+    </div>
+  </div>
+  <div fxFlex="5">
+  </div>
+
+  <div fxFlex="85" fxLayout fxLayout="start">
+    <div fxFlex="40" fxLayout="column" fxLayoutAlign="start center" style="border-right: 1px solid rgba(0, 0, 0, 0.1);">
+      <div fxFlex="5" fxLayout fxLayoutAlign="center center">
+        <div class="section-title">Utente</div>
+      </div>
+      <div *ngIf="utente?.ruolo.nome_ruolo == 'Rivenditore'" fxFlex="5"></div>
+      <div *ngIf="utente?.ruolo.nome_ruolo != 'Rivenditore'" fxFlex="20"></div>
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="profile-container">
+        <div fxFlex class="icon-container">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <span class="nome">{{utente?.nome}}</span>
+        <div fxLayout="column" fxLayoutAlign="space-between center" class="info-container">
+          <mat-form-field class="input-container">
+            <mat-label>E-mail</mat-label>
+            <input matInput disabled value="{{utente?.login}}">
+          </mat-form-field>
+          <mat-form-field class="input-container">
+            <mat-label>Ruolo</mat-label>
+            <input matInput disabled value="{{utente?.ruolo.nome_ruolo}}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="start center">
+      <div fxFlex="5" fxLayout fxLayoutAlign="center center">
+        <div class="section-title">Storico dati turno</div>
+      </div>
+      <div fxFlex="5"></div>
+      <div fxLayout fxLayoutAlign="space-around center" style="width: 100%;">
+        <mat-form-field appearance="standard">
+          <mat-label>Seleziona una data</mat-label>
+          <input matInput [matDatepicker]="picker" (dateInput)="OnDateChange($event.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!-- <div *ngIf="isChiusuraAlreadyPresent && dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" [disabled]="!isChiusuraAlreadyPresent" (click)="downloadChiusura()">
+            <mat-icon>download</mat-icon> Download PDF
+          </button>
+          <mat-error *ngIf="!isChiusuraAlreadyPresent">Chiusura mancante!</mat-error>
+        </div> -->
+        <!-- <div *ngIf="!isChiusuraAlreadyPresent && dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" (click)="effettuaChiusura()">
+            <mat-icon>assignment_late</mat-icon> Effettua la chiusura
+          </button>
+          <mat-error *ngIf="!isChiusuraAlreadyPresent">Chiusura non effettuata!</mat-error>
+        </div> -->
+        <!-- <div *ngIf="dateToDisplay" fxLayout="column" fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" *ngIf="!isDistributore" (click)="downloadReportFermate()">
+              <mat-icon>download</mat-icon>
+              <span>Scarica pdf fermate</span>
+            </button>
+        </div> -->
+
+
+      </div>
+      <div fxFlex="55" fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+        <div *ngIf="dateToDisplay && isChiusuraAlreadyPresent" class="card-anteprima" fxLayout="column" fxLayoutAlign="space-around">
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <span class="titolo-entry-chiusura">Documento gestionale</span>
+            <span class="titolo-entry-chiusura">{{dateToDisplay}}</span>
+          </div>
+          <!-- <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti interi emessi:</span><span>x{{nInteri}}</span>
+                    </div>
+                    <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti ridotti emessi:</span><span>x{{nRidotti}}</span>
+                    </div> -->
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Autista:</span><span>{{datiGiornalieri.autista?.nome}}</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Bus:</span><span>{{datiGiornalieri.bus?.numeroVettura}}</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Turno:</span><span>{{datiGiornalieri.tipoTurno?.tipoTurno}}</span>
+          </div>
+        </div>
+        <div *ngIf="!dateToDisplay || !isChiusuraAlreadyPresent">
+          <div class="entry-sublist">Seleziona una data contentente dati per avere l'anteprima della giornata.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>

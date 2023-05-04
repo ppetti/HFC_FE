@@ -1,0 +1,120 @@
+<div class="title" fxLayout="row" fxLayoutAlign="space-between start">
+  <span>{{tipoBigliettoService.isModifica?"Modifica la tipologia di biglietto":"Inserisci una tipologia di  Biglietto"}}</span>
+</div>
+
+
+<form [formGroup]="tipoBigliettoService.formTipoBiglietto" fxLayout="column" class="form-container" (submit)="submit()">
+  <mat-grid-list cols="2" rowHeight="100px" class="listForm">
+    <mat-grid-tile>
+      <mat-form-field class="form-field">
+        <mat-label>Titolo</mat-label>
+        <input formControlName="titolo" matInput required>
+      </mat-form-field>
+    </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="form-field">
+          <mat-select formControlName="macrosettore" placeholder="Macrocategoria" [compareWith]="compareById"
+            (selectionChange)="macroChanged()" required>
+            <ng-container *ngFor="let macrosettore of macrosettoriList">
+              <mat-option [value]="macrosettore">{{macrosettore.nome}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+    <mat-grid-tile *ngIf="!inserimentoCombinati">
+      <!-- Se è inserimento -->
+      <mat-form-field class="form-field" *ngIf="!durataIsNull() || !tipoBigliettoService.isModifica">
+        <mat-label>Durata</mat-label>
+        <input formControlName="durata" matInput type="number" class="right-align">
+        <span matSuffix>&nbsp;h</span>
+      </mat-form-field>
+      <!-- Se modifica -->
+      <mat-form-field class="form-field" *ngIf="durataIsNull() && tipoBigliettoService.isModifica">
+        <mat-label>Durata</mat-label>
+        <input formControlName="durata" matInput type="text" class="right-align" readonly>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngIf="!inserimentoCombinati">
+      <mat-form-field class="form-field">
+        <mat-label>Prezzo intero</mat-label>
+        <input formControlName="prezzo_full" matInput type="number" class="right-align">
+        <span matSuffix>&nbsp;€</span>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="!inserimentoCombinati">
+      <mat-form-field class="form-field">
+        <mat-label>Prezzo ridotto</mat-label>
+        <input formControlName="prezzo_child" matInput type="number" class="right-align">
+        <span matSuffix>&nbsp;€</span>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngIf="inserimentoCombinati">
+      <mat-form-field class="form-field">
+        <mat-select formControlName="tipologia1" placeholder="Tipologia 1" [compareWith]="compareById" required>
+          <ng-container *ngFor="let tipologia of tipologieList">
+            <mat-option [value]="tipologia">{{tipologia.titolo}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="inserimentoCombinati">
+      <mat-form-field class="form-field">
+        <mat-select formControlName="tipologia2" placeholder="Tipologia 2" [compareWith]="compareById" required>
+          <ng-container *ngFor="let tipologia of tipologieList">
+            <mat-option [value]="tipologia">{{tipologia.titolo}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field class="form-field" class="form-field">
+        <mat-label>Descrizione</mat-label>
+        <textarea formControlName="descrizione" matInput required style="max-height: 50px;"></textarea>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field class="form-field">
+        <mat-label>Passeggeri per biglietto</mat-label>
+        <input formControlName="passeggeriPerBiglietto" matInput type="number" class="right-align">
+      </mat-form-field>
+    </mat-grid-tile>
+
+  <mat-grid-tile>
+    <div>
+      <mat-label>Voucher</mat-label>
+      <input type="checkbox" formControlName="voucher" *ngIf="true">
+    </div>
+  </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field class="form-field" *ngIf="this.tipoBigliettoService.formTipoBiglietto['controls'].voucher.value == true">
+        <mat-label>Prezzo netto intero voucher</mat-label>
+        <input formControlName="prezzoNettoInteroVoucher" matInput type="number" class="right-align">
+        <span matSuffix>&nbsp;€</span>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field class="form-field" *ngIf="this.tipoBigliettoService.formTipoBiglietto['controls'].voucher.value == true">
+        <mat-label>Prezzo netto ridotto voucher</mat-label>
+        <input formControlName="prezzoNettoRidottoVoucher" matInput type="number" class="right-align">
+        <span matSuffix>&nbsp;€</span>
+      </mat-form-field>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+  <div fxLayout="row" fxLayoutAlign="end" style="margin-top: 2vh" class="footerCard">
+    <button mat-raised-button color="warn" type="button" style="margin-right: 2%;" (click)="close()">
+      Annulla
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!tipoBigliettoService.formTipoBiglietto.valid">
+      Salva
+    </button>
+
+
+  </div>
+</form>

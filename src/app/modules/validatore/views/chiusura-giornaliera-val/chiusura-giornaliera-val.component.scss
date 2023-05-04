@@ -1,0 +1,46 @@
+// .card-chiusura {
+//     margin-top: 5vh;
+//     width: 80%;
+// }
+.container-chiusura {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.titolo-entry-chiusura {
+  font-weight: 600;
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+.subtitle_chiusura {
+  font-weight: 500;
+  font-size: 18px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.entry-sublist {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.info-sublist {
+  padding: 0px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.info-icon {
+  mat-icon {
+    font-size: 18px;
+  }
+
+}
+
+.entry-sublist-bold {
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 600;
+}

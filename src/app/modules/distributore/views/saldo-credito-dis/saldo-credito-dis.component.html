@@ -1,0 +1,121 @@
+<div style="height: 100%;">
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToSelezioneCliente()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Salda credito</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Salda il credito utilizzato </span>
+      </div>
+    </div>
+
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Riepilogo credito</span>
+          </div>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Credito totale: </span><span>{{distributore?.creditoTotale}} €</span>
+          </div>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>Credito inutilizzato:</span><span>{{distributore?.creditoDisponibile}} €</span>
+          </div>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>Totale da saldare: </span><span>{{distributore?.creditoTotale - distributore?.creditoDisponibile}}
+              €</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start"
+        *ngIf="distributore?.abituale && distributore?.creditoDisponibile != distributore?.creditoTotale">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Seleziona metodo di pagamento</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="card" fxLayout fxLayoutAlign="start center" [class.card-selected]="paymentMethod == 'cash'"
+              (click)="cardSelection('cash')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">payments</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga in contanti</span>
+                <span class="info-sublist">Cash payment</span>
+              </div>
+            </div>
+
+            <div class="card" fxLayout fxLayoutAlign="start center" style="margin-bottom: 5%;"
+              [class.card-selected]="paymentMethod == 'pos'" (click)="cardSelection('pos')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">credit_card</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga con carta</span>
+                <span class="info-sublist">Credit card payment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start" [class.hiddenForm]="!isPagamentoConCarta">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Informazioni Carta</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding-top: 10px;padding-bottom: 10px;width: 100%;border: 1px solid #ccc; background-color: #fafafa;">
+            <form ngNoForm id="payment-form" class="payment-form" style="width: 100%;" (submit)="submit($event)">
+
+              <!-- <label for="card-element">
+                Card
+              </label> -->
+              <div id="card-element">
+              </div>
+
+              <div id="card-errors" role="alert"></div>
+
+              <button id="submit" style="display: none!important;"  class="stripe-button">Pay</button>
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 10vh;width: 100%;">
+      <button mat-raised-button color="primary" (click)="acquista()"
+        [disabled]="distributore?.abituale && !paymentMethod ||  (distributore?.creditoDisponibile == distributore?.creditoTotale)">
+        Salda
+      </button>
+    </div>
+
+    <!--
+    <form ngNoForm id="payment-form" class="payment-form" style="width: 100%;" (submit)="submit($event)">
+
+      <label for="card-element">
+        Card
+      </label>
+      <div id="card-element">
+      </div>
+
+      <div id="card-errors" role="alert"></div>
+
+      <button id="submit" class="stripe-button">Pay</button>
+    </form> -->
+  </div>
+
+
+
+</div>

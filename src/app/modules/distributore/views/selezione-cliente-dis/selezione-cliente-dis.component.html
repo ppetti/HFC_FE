@@ -1,0 +1,12 @@
+<!-- Mobile -->
+<div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex fxHide.gt-sm
+    style="overflow-y: auto; margin-top: 7%;">
+    <div style="width: 90%;padding: .5vh;" *ngFor="let cliente of allClienti">
+        <mat-card class="example-card" style="margin: 0% 2% 0% 2%;" fxLayout fxLayoutAlign="start center" (click)="selezionaCliente(cliente?.id)">
+            <img style="max-height: 20%;max-width: 20%;" src="../../../../../assets/logo2.png" >
+            <mat-card-header style="float: right;">
+                <mat-card-title style="display: inline;">{{cliente.nome}}</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </div>
+</div>

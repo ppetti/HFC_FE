@@ -1,0 +1,38 @@
+<div fxLayout="column" fxLayoutAlign="start center" style="height: 100%; width: 100%;">
+    <div class="titolo">
+        Biglietti presenti
+    </div>
+    <div class="subtitle">
+        per tipologia
+    </div>
+    <div class="list-alignment">
+    <div fxLayout fxLayoutAlign="center center" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+        <mat-form-field appearance="standard" style="width: 80%;">
+            <mat-label>Cerca tipologia</mat-label>
+            <input matInput [(ngModel)]="tipologiaInput" (input)="filterItem(input.value)" placeholder="Ex. OPEN BUS" #input>
+            <button mat-button *ngIf="tipologiaInput" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <mat-selection-list [multiple]="false">
+        <mat-list-option *ngFor="let tipologia of tipologiaService?.tipologiaBiglietto" class="item-list">
+            <!-- <div style="width: calc(100% - 22px);" [matBadge]="tipologia.bigliettiDisponibiliList.length" matBadgeOverlap="false"
+            matBadgeSize="medium" fxLayout fxLayoutAlign="start center" style="height: 100%;">
+                <div>
+                    {{tipologia.titolo}}
+                </div>
+            </div>  -->
+            <div fxLayout fxLayoutAlign="space-between center">
+                {{tipologia.titolo}}
+                <mat-chip-list>
+                    <mat-chip class="ok-color" [class.err-color]="tipologia.nBigliettiDisponibili<15"
+                    [class.warn-color]="tipologia.nBigliettiDisponibili>=15 && tipologia.nBigliettiDisponibili<50">
+                        {{tipologia.nBigliettiDisponibili}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+</div>

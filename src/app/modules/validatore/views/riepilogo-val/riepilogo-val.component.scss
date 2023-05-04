@@ -1,0 +1,61 @@
+@import '../../../../../assets/scss/baseValues';
+
+.container-riepilogo {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.titolo-entry-riepilogo {
+    padding-left: 5px;
+    font-weight: 600;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.entry-sublist {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.info-sublist {
+    padding: 0px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.info-icon {
+    mat-icon{
+      font-size: 18px;  
+    }
+    
+}
+
+.entry-sublist-bold {
+    padding: 5px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.icon-size {
+    font-size: 40px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 5px;
+    padding: 4%;
+    margin-top: 5%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 80%;
+}
+
+.card-selected {
+    border: 2px solid $main_color;
+    color: $main_color;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 500;
+}

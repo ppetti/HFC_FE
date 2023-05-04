@@ -1,0 +1,152 @@
+<div style="height: 100%">
+  <!-- Mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToLand()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Chiusura giornaliera</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Effettua la chiusura </span>
+      </div>
+    </div>
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+      <div class="container-chiusura" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-chiusura">
+            <span>Stato chiusura</span>
+          </div>
+          <div fxLayout fxLayoutAlign="start" class="info-sublist">
+            <div class="info-icon">
+              <mat-icon>info</mat-icon>
+            </div>
+            <span>La chiusura va effettuata entro le 23.59 del giorno corrente.</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>{{isChiusuraAlreadyPresent ? "La chiusura giornaliera è stata già effettuata. Visualizza il pdf per avere maggiori dettagli" : "La chiusura relativa alla giornata odierna non è ancora stata effettuata"}}.</span>
+          </div>
+        </div>
+      </div>
+      <div class="container-chiusura" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-chiusura">
+            <span>Chiusura giornaliera</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <span>Documento gestionale</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="subtitle_chiusura">
+            <span><strong>Biglietti venduti: </strong></span>
+          </div>
+          <div fxFlex fxLayout="column" *ngFor="let biglietto of bigliettiVendutiList">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span><strong>{{biglietto.tipologiaBiglietto.titolo}}:</strong></span>
+            </div>
+            <div *ngIf="biglietto.nBigliettiInteri > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti interi emessi:</span><span>x{{biglietto.nBigliettiInteri}}</span>
+            </div>
+            <div *ngIf="biglietto.nBigliettiRidotti > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti ridotti emessi:</span><span>x{{biglietto.nBigliettiRidotti}}</span>
+            </div>
+            <br>
+          </div>
+          <!-- <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti interi emessi:</span><span>x{{nInteri}}</span>
+                    </div>
+                    <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti ridotti emessi:</span><span>x{{nRidotti}}</span>
+                    </div> -->
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>n° biglietti totali emessi:</span><span>x{{nInteri + nRidotti}}</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. ridotti:</span><span>{{totRidotti?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. interi:</span><span>{{totInteri?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+            <span>tot. contanti:</span><span>{{totContanti?.toFixed(2)}}€</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>tot. incassi:</span><span>{{(totInteri + totRidotti).toFixed(2)}}€</span>
+          </div>
+          <br><br>
+          <div *ngIf="validatiPerTipologia.length > 0" fxLayout fxLayoutAlign="space-between" class="subtitle_chiusura">
+            <span><strong>Biglietti validati: </strong></span>
+          </div>
+          <div fxFlex fxLayout="column" *ngFor="let biglietto of validatiPerTipologia">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span><strong>{{biglietto.tipologia}}:</strong></span>
+            </div>
+            <div *ngIf="biglietto.nAdult > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti interi validati:</span><span>x{{biglietto.nAdult}}</span>
+            </div>
+            <div *ngIf="biglietto.nChild > 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti ridotti validati:</span><span>x{{biglietto.nChild}}</span>
+            </div>
+            <br>
+          </div>
+
+          <div *ngIf="hasOta" fxLayout fxLayoutAlign="space-between" class="subtitle_chiusura">
+            <span><strong>Biglietti OTA: </strong></span>
+          </div>
+
+          <div *ngFor="let distributoreBiglietti of distributoriOta" fxFlex fxLayout="column" fxLayoutAlign="space-between" class="subtitle_chiusura">
+            <span *ngIf="distributoreBiglietti.listaBiglietti?.length > 0" style="margin-left: 10px;"><strong>{{distributoreBiglietti.nome}}: </strong></span>
+            <div style="margin-left: 10px;" fxFlex fxLayout="column" *ngFor="let biglietto of distributoreBiglietti.listaBiglietti">
+              <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                <span><strong>{{biglietto.tipologia}}:</strong></span>
+              </div>
+              <div *ngIf="biglietto.nAdult > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti interi validati:</span><span>x{{biglietto.nAdult}}</span>
+              </div>
+              <div *ngIf="biglietto.nChild > 0" fxLayoutAlign="space-between" class="entry-sublist">
+                <span>n° biglietti ridotti validati:</span><span>x{{biglietto.nChild}}</span>
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <div *ngIf="validatiVox.length > 0" fxLayout fxLayoutAlign="space-between" class="subtitle_chiusura">
+            <span><strong>Biglietti validati Vox: </strong></span>
+          </div>
+          <div fxFlex fxLayout="column" *ngIf="validatiVox.length > 0">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti Vox validati:</span><span>x{{validatiVox.length}}</span>
+            </div>
+            <br>
+          </div>
+
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>n° biglietti totali validati:</span><span>x{{totValidati + validatiVox.length}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="container-chiusura" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-chiusura">
+            <span>Visualizza documento</span>
+          </div>
+          <div *ngIf="!isChiusuraAlreadyPresent">
+            <span>Per poter scaricare il documento è necessario effettuare prima la chiusura.</span>
+          </div>
+        </div>
+        <div *ngIf="isChiusuraAlreadyPresent">
+          <button mat-icon-button color="primary" (click)="downloadChiusura()">
+            <mat-icon>file_download</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 10vh;width: 100%;">
+      <button mat-raised-button color="primary" [disabled]="isChiusuraAlreadyPresent" (click)="effettuaChiusura()">
+        Effettua chiusura
+      </button>
+    </div>
+  </div>

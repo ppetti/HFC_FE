@@ -1,0 +1,16 @@
+<!-- Form Login -->
+<h2 mat-dialog-title style="text-align: center;">Accedi</h2>
+<mat-dialog-content  [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="center" style="width: 100%;margin: auto;flex: 1;">
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
+    <input type="text" matInput formControlName="username" required />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput formControlName="password" required />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout fxLayoutAlign="end">
+  <button mat-raised-button color="primary" type="button" (click)="login()">Login</button>
+  <button mat-raised-button type="button" (click)="annulla()">Annulla</button>
+</mat-dialog-actions>

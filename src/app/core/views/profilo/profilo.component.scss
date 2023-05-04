@@ -1,0 +1,80 @@
+@import "../../../../assets/scss/baseValues";
+
+// PC
+.icon-container{
+    mat-icon {
+        font-size: 70px;
+        width: 70px;
+        height: 70px;
+    }
+    margin: 5px;  
+}
+
+.profile-container {
+    width: 40%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: white;
+    padding: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.input-container {
+    width: 80%;
+}
+
+.utilities-container {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: white;
+    padding: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.welcome {
+    font-size: large;
+}
+
+.nome {
+    font-size: x-large;
+    font-weight: 900;
+    color: $main_color;
+    margin-bottom: 3%;
+}
+
+.info-container {
+    border: 1px solid $icon_color;
+    border-radius: 10px;
+    padding: 2%;
+    width: 70%;
+}
+
+.exit {
+    background-color: $error_color;
+    color: white;
+}
+
+// MOBILE
+@media screen and (max-width: 959px) {
+    .profile-container {
+        width: 85%;
+        border-radius: 10px;
+        background-color: white;
+        padding: 2%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin-top: 4vh;
+    }
+
+    .exit {
+        background-color: $error_color;
+        color: white;
+        margin: 4% ;
+    }
+
+    .nome {
+        font-size: x-large;
+        font-weight: 900;
+        color: $main_color;
+        margin-bottom: 5%;
+    }
+}

@@ -1,0 +1,311 @@
+<div class="grid-container" fxLayout style="height: calc(100% - 40px);overflow-y: hidden;">
+  <div fxFlex style="overflow-y: auto;">
+    <div fxLayout="column" style="height: 100%;;min-height: 750px!important;">
+      <mat-grid-list [cols]="breakpoint" rowHeight="250px" (window:resize)="onResize($event)"
+        style="min-height: 500px!important;">
+        <mat-grid-tile *ngFor="let counter of counters | async" [colspan]="counter.cols" [rowspan]="counter.rows">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content" style="height: 100%;" fxLayout
+              fxLayoutAlign="center center">
+              <div [ngSwitch]="counter.content" style="width: 100%;height: 100%;">
+
+
+                <ng-template [ngSwitchCase]="'passeggeri'">
+
+
+                  <div class="icon-box boxBrightGreen">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">directions_bus
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Totale Passeggeri </div>
+                    <div class="value">{{validatiCount + vendutiCount + passeggeriOta}} </div>
+                    <!-- <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                                                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                                                    <div class="sottotitolo">Nelle ultime 24 ore</div>
+                                                  </div> -->
+                  </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Oggi</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioPasseggeri')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'biglietti-venduti'">
+
+                  <div class="icon-box boxBlue">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;"> confirmation_number
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Biglietti venduti</div>
+                    <div class="value">{{bigliettiCount}} </div>
+                    <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                      <mat-icon style="float: left;">calendar_today</mat-icon>
+                      <div class="sottotitolo">Oggi</div>
+                    </div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioBiglietti')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+
+
+                <ng-template [ngSwitchCase]="'distributori'">
+
+                  <div class="icon-box boxGreen" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">euro
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Totale vendite</div>
+                    <div class="value" style="font-size: 30px;">{{totaleVenditeCount?.toFixed(2)}} </div>
+                    <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                      <mat-icon style="float: left;">calendar_today</mat-icon>
+                      <div class="sottotitolo">Oggi</div>
+                    </div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioBigliettiVendita')"
+                    class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'biglietti-venduti-prezzo-custom'">
+
+                  <div class="icon-box boxGreen" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">euro
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Totale vendite rete</div>
+                    <div class="value" style="font-size: 30px;">{{validatiDaReteVenditoriCount?.toFixed(2)}} </div>
+                    <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                      <mat-icon style="float: left;">calendar_today</mat-icon>
+                      <div class="sottotitolo">Oggi</div>
+                    </div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioBigliettoVenditaPrezzoCustom')"
+                    class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+
+
+                <ng-template [ngSwitchCase]="'validatori'">
+
+                  <div class="icon-box boxYellow">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">shopping_cart
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <!-- <div class="titolo1">Totale biglietti venduti</div>
+                 <div class="value1">{{vendutiCount}}  </div> -->
+                    <div class="titolo">Totale biglietti validati</div>
+                    <div class="value">{{validatiCount}} </div>
+
+
+                    <!-- <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Nelle ultime 24 ore</div>
+                  </div> -->
+                  </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Oggi</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioValidati')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+                <!-- <ng-template [ngSwitchCase]="'validatori'">
+
+                  <div class="icon-box boxYellow">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">shopping_cart
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                  <div class="titolo">Totale rivenditori attivi</div>
+                 <div class="value">{{distributoriCount}}  </div>
+
+                </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Negli ultimi 14 giorni</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioVenditoriAttivi')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template> -->
+
+
+
+                <ng-template [ngSwitchCase]="'guadagni'">
+
+
+                  <div class="icon-box boxRed">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">qr_code
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Totale operatori interni attivi </div>
+                    <div class="value">{{validatoriCount}} </div>
+                    <!-- <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Nelle ultime 24 ore</div>
+                  </div> -->
+                  </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Negli ultimi 14 giorni</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dettaglioOperatoriAttivi')"
+                    class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'tours'">
+
+
+                  <div class="icon-box boxTeal">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">group
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Biglietti Tour </div>
+                    <div class="value">{{toursCount}} </div>
+                    <!-- <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Nelle ultime 24 ore</div>
+                  </div> -->
+                  </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Oggi</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('tours')"
+                    class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+				<ng-template [ngSwitchCase]="'dist_ota'">
+
+
+                  <div class="icon-box boxTeal">
+                    <mat-icon style=" font-size: 50px;  width: 50px; height: 50px; color:white;">group
+                    </mat-icon>
+                  </div>
+                  <div class="wrapper">
+                    <div class="titolo">Biglietti Validati Ota </div>
+                    <div class="value">{{otaCount}} </div>
+                  </div>
+                  <div class="footer-title" fxLayout fxLayoutAlign="center center">
+                    <mat-icon style="float: left;">calendar_today</mat-icon>
+                    <div class="sottotitolo">Oggi</div>
+                  </div>
+                  <button mat-mini-fab color="primary" (click)="openDialog('dist_ota')"
+                    class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+
+
+                <!-- <ng-template [ngSwitchCase]="'biglietti'">
+                <app-gestione-biglietti></app-gestione-biglietti>
+                <button mat-mini-fab color="primary" class="detailButton" (click)="openBigliettiDialog()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </ng-template> -->
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="3" rowHeight="500px" fxHide="true" fxShow.gt-md="true">
+        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content" style="height: 100%;" fxLayout
+              fxLayoutAlign="center center">
+              <div [ngSwitch]="card.content" style="width: 100%;height: 100%;">
+                <ng-template [ngSwitchCase]="'pie'">
+                  <app-grafico-torta [options]="customOption"></app-grafico-torta>
+                  <button mat-mini-fab color="primary" (click)="openDialog('pie')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'area'">
+                  <app-stacked-area-chart [options]="options"></app-stacked-area-chart>
+                  <button mat-mini-fab color="primary" (click)="openDialog('stacked-area')" class="detailButton">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </ng-template>
+                <!-- <ng-template [ngSwitchCase]="'biglietti'">
+                <app-gestione-biglietti></app-gestione-biglietti>
+                <button mat-mini-fab color="primary" class="detailButton" (click)="openBigliettiDialog()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </ng-template> -->
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+
+  <div fxFlex="20" fxHide="true" fxShow.gt-md="true">
+    <mat-card style="height: calc(100% - 40px);">
+      <app-gestione-biglietti></app-gestione-biglietti>
+    </mat-card>
+    <button *ngIf="!isSupervisore" mat-mini-fab color="primary" class="detailButtonRight"
+      (click)="openBigliettiDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- <div style="width: 100%;height: 70%;" fxLayout="column">
+  <div fxFlex=80 fxLayout style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+    <div class="filter-title" fxLayout fxLayoutAlign="center center">
+      <mat-icon>filter_alt</mat-icon>Filtra
+    </div>
+    <div fxFlex=15></div>
+
+  </div>
+</div>
+
+<div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div class="item" fxFlex="30%">
+    <div class="filter-title" fxLayout fxLayoutAlign="center center">
+      <mat-icon>filter_alt</mat-icon>Filtra
+    </div>
+    <div fxLayout="column" class="flex-container">
+      <div class="item" fxLayout fxLayoutAlign="center center">
+1
+      </div>
+      <div class="item" fxLayout fxLayoutAlign="center center">2</div>
+      <div class="item" fxLayout fxLayoutAlign="center center">3</div>
+    </div>
+  </div>
+  <div class="item" fxFlex="60%">
+    Item 2 : 60 % width
+  </div>
+</div> -->
+
+<!-- <div fxLayout="row" fxLayoutGap="10px">
+  <div fxFlex="20" class="item">Child One </div>
+  <div fxFlex="20" class="item" fxHide.lt-md> Child - Two </div>
+  <div fxFlex="60" class="item">Child - Three</div>
+</div> -->

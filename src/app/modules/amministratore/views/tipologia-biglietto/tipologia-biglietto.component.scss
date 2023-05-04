@@ -1,0 +1,46 @@
+@import "../../../../../assets/scss/baseValues";
+
+.card {
+  width: 60%;
+  margin: 5vh auto;
+  padding: 0!important;
+}
+
+.right-align {
+    text-align: right;
+}
+
+input.right-align::-webkit-outer-spin-button,
+input.right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.right-align {
+  -moz-appearance: textfield;
+}
+
+.form-field {
+  width: 80%;
+}
+
+.headerTodo {
+  min-height: 56px;
+  color: $bg_color;
+  background-color: $header_color;
+}
+
+.headerTitle {
+      font-size: 18px;
+    font-weight: 500;
+}
+
+.footerCard{
+  min-height: 56px;
+  padding: 15px;
+}
+
+.title {
+  font-size: x-large;
+  margin-bottom: 3vh;
+  font-weight: 500;
+}

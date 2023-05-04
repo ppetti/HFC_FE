@@ -1,0 +1,164 @@
+<div fxLayout class="fullScreenContainer">
+
+    <div fxLayout="column" class="listColumn tableBg" fxFlex="15">
+        <div class="genericHeader listHeader" fxLayout fxLayoutAlign="center center">
+            <span class="headerText"> Seleziona listino </span>
+        </div>
+        <div fxLayout fxLayoutAlign="center center">
+            <mat-form-field appearance="standard" style="width: 80%;">
+                <mat-label>Cerca rivenditore</mat-label>
+                <input matInput [(ngModel)]="nome" (input)="filterItem(input.value)" placeholder="Ex. Mario" #input>
+                <button mat-button *ngIf="nome" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput()">
+              <mat-icon>close</mat-icon>
+          </button>
+            </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <!-- <a (click)="test()">
+        <mat-icon>library_add_check</mat-icon>
+      </a> -->
+            <div class="selectModeButton">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon class="selectButton" *ngIf="inputMode === 'add'">add</mat-icon>
+          <mat-icon class="selectButton" *ngIf="inputMode === 'edit'">edit</mat-icon>
+        </button>
+            </div>
+
+            <ng-container *ngIf="inputMode === 'add'">
+                <button mat-icon-button color="primary" (click)="selectAll()" matTooltip="Seleziona tutti">
+          <mat-icon>library_add_check</mat-icon>
+        </button>
+                <button mat-icon-button color="primary" (click)="deselectAll()" matTooltip="Deseleziona tutti">
+          <mat-icon>indeterminate_check_box</mat-icon>
+        </button>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="inputMode === 'edit'">
+        <button mat-icon-button color="primary">
+          <mat-icon>library_add_check</mat-icon>
+        </button>
+        <button mat-icon-button color="primary">
+          <mat-icon>indeterminate_check_box</mat-icon>
+        </button>
+      </ng-container> -->
+
+
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="selectMode('add')">
+          <mat-icon>add</mat-icon>
+          <span>Genera</span>
+        </button>
+                <button mat-menu-item (click)="selectMode('edit')">
+          <mat-icon>edit</mat-icon>
+          <span>Modifica</span>
+        </button>
+            </mat-menu>
+        </div>
+        <mat-divider></mat-divider>
+
+        <ng-container *ngIf="inputMode === 'add'">
+            <mat-selection-list fxFlex #distributoriAdd color="primary" [disableRipple]="true" style="overflow-y: auto;">
+                <mat-list-option *ngFor="let dis of listaDistributoriSenzaListino" [value]="dis">
+                    {{dis?.utente?.nome}}
+                </mat-list-option>
+            </mat-selection-list>
+        </ng-container>
+
+        <ng-container *ngIf="inputMode === 'edit'">
+            <mat-selection-list fxFlex #distributoriEdit color="primary" [multiple]="false" [disableRipple]="true" style="overflow-y: auto;" [(ngModel)]="distributoreToModifyList" (ngModelChange)="distributoreModificaChanged($event)">
+                <mat-list-option *ngFor="let dis of listaDistributoriConListino" [value]="dis">
+                    {{dis?.utente?.nome}}
+                </mat-list-option>
+            </mat-selection-list>
+        </ng-container>
+
+        <mat-divider></mat-divider>
+        <div style="height: 50px; padding: 0 5%;" fxLayout fxLayoutAlign="end center">
+            <button mat-raised-button color="primary" style="height: 70%; margin: auto 0;" [disabled]="!distributoriAddSelect && !distributoriEditSelect" (click)="salvaListino()">Salva</button>
+        </div>
+    </div>
+    <ng-container *ngIf="inputMode === 'add' || (inputMode === 'edit' && distributoreToModifyList)">
+        <div fxLayout="column" class="tableBg" fxFlex style="overflow-y: scroll;">
+            <div class="genericHeader" fxLayout fxLayoutAlign="center center">
+                <span class="headerText"> Listino prezzi </span>
+            </div>
+            <div>
+                <table mat-table [dataSource]="listaTipologie" matSort>
+
+                    <ng-container matColumnDef="titolo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Biglietto </th>
+                        <td mat-cell *matCellDef="let row"> {{row.titolo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="prezzoF">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Prezzo Adult al Cliente (€)
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div fxLayout fxLayoutAlign="center">{{row.prezzo_full}} &nbsp;€</div>
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="scontoF">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Sconto Adult(€) </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-form-field class="form-field" style="width: 70%; margin-left: 15%;">
+                                <input matInput type="number" class="right-align" [(ngModel)]="row.sconto_adult" step=".50" pattern="^\d+(?:\.\d{1,2})?$" (ngModelChange)="aggiornaScontiAdult()" style="text-align: center;">
+                                <span matSuffix>&nbsp;€</span>
+                            </mat-form-field>
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="scontoF">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Sconto Adult(€) </th>
+                      <td mat-cell *matCellDef="let row">
+                          <mat-form-field class="form-field" style="width: 70%; margin-left: 15%;">
+                              <!-- <mat-label>Prezzo intero</mat-label> -->
+                              <input matInput type="number" class="right-align" [(ngModel)]="row.sconto_adult" step="1" pattern="^\d+(?:\.\d{1,2})?$" (ngModelChange)="aggiornaScontiAdult()" style="text-align: center;">
+                              <span matSuffix>&nbsp;€</span>
+                          </mat-form-field>
+                      </td>
+                  </ng-container>
+
+                    <ng-container matColumnDef="prezzoC">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Prezzo Child al Cliente (€)
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div fxLayout fxLayoutAlign="center">{{row.prezzo_child}} &nbsp;€</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sconto">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Sconto Child(€) </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-form-field class="form-field" style="width: 70%; margin-left: 15%;">
+                                <!-- <mat-label>Prezzo intero</mat-label> -->
+                                <input matInput type="number" class="right-align" [(ngModel)]="row.sconto" step="1" pattern="^\d+(?:\.\d{1,2})?$" (ngModelChange)="aggiornaSconti()" style="text-align: center;">
+                                <span matSuffix>&nbsp;€</span>
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="prezzoFS">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Prezzo Adult al Venditore (€)
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                          <div fxLayout fxLayoutAlign="center"> {{row.prezzoFullScontato}} &nbsp;€</div>
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="prezzoCS">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Prezzo Child al Venditore (€)
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                          <div fxLayout fxLayoutAlign="center"> {{row.prezzoChildScontato}} &nbsp;€</div>
+                      </td>
+                  </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tableHeaderHFC"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+</div>

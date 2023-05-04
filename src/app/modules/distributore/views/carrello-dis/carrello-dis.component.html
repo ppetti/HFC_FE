@@ -1,0 +1,171 @@
+<div style="height: 100%">
+  <!-- PC -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.lt-md>
+    <mat-card style="width: 60%;height: 80%;margin: auto;border: 1px solid rgba(0,0,0,.2)" fxLayout="column">
+      <mat-card-header>
+        <div fxLayout="column" class="container-carrello">
+          <div fxLayout>
+            <div fxLayout fxLayoutAlign="center center">
+              <a (click)="backToBuy()">
+                <mat-icon>arrow_back</mat-icon>
+              </a>
+            </div>
+            <span fxFlex fxLayout fxLayoutAlign="start center" class="labelCarrello">Carrello</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between">
+            <span>Articoli selezionati: </span>
+            <span >Prezzi: </span>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+          <div class="container-carrello" fxFlex="0 0 15vh" fxLayout fxLayoutAlign="start"
+            *ngFor="let tipologia of carrello">
+            <div style="height: 100%;"><img src="../../../../../assets/biglietto.svg" style="height: 100%;"></div>
+            <div fxFlex fxLayout="column">
+              <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-carrello">
+                <span>{{tipologia.titolo}}</span><span>{{(tipologia.prezzo_full * tipologia.buyCountAdult +
+                                        tipologia.prezzo_child * tipologia.buyCountChild).toFixed(2)}}€</span></div>
+              <!-- <div fxFlex style="background-color: green;"></div> -->
+              <div fxFlex fxLayout fxLayoutAlign="space-around center" class="qta-entry-carrello">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                  <div fxLayout="column" fxLayoutAlign="start center"><span>Q.tà</span> <span
+                      style="font-weight: 500;">adulti</span></div>
+                  <span>:</span>
+                  <mat-form-field appearance="outline" class="selectQta" fxLayout fxLayoutAlign="start center">
+                    <mat-select [(ngModel)]="tipologia.buyCountAdult" (selectionChange)="calcolaPrezzo()">
+                      <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                        {{num}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                  <div fxLayout="column" fxLayoutAlign="start center"><span>Q.tà</span> <span
+                      style="font-weight: 500;">minori</span>
+                  </div>
+                  <span>:</span>
+                  <mat-form-field appearance="outline" class="selectQta" fxLayout fxLayoutAlign="start center">
+                    <mat-select [(ngModel)]="tipologia.buyCountChild" (selectionChange)="calcolaPrezzo()">
+                      <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                        {{num}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <div class="fill-spaces"></div>
+      <div class="warning" fxLayout fxLayoutAlign="center center">
+        <mat-icon>report</mat-icon>Attenzione! Hai 15:00 per completare l'ordine
+      </div>
+      <mat-card-actions>
+        <div fxLayout style="height: 10vh;width: 100%;" class="totaleContainerMobile">
+          <div fxFlex fxLayout="column" fxLayoutAlign="space-around stretch" style="padding: 0 10px; font-size: 16px;">
+            <div fxLayout fxLayoutAlign="start" fxLayoutGap="20px"><span>Totale al cliente:</span> <span
+                class="prezzo">{{prezzoCliente.toFixed(2)}}€</span></div>
+            <div fxLayout fxLayoutAlign="start" fxLayoutGap="20px"><span>Totale al rivenditore:</span> <span
+                class="prezzo">{{prezzoRivenditore.toFixed(2)}}€</span></div>
+          </div>
+          <div fxFlex="30" fxLayout fxLayoutAlign="start center" style="padding: 0 15px;">
+            <button mat-raised-button color="primary" (click)="procedi()">
+              Procedi
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToBuy()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Carrello</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Articoli selezionati: </span>
+        <span>Prezzi: </span>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="isCarrelloEmpty" style="height: 100%;">
+      <div class="carrello-empty" fxLayout fxLayoutAlign="center center">
+      Il tuo carrello è vuoto. Che aspetti,
+      </div>
+      <div class="link carrello-empty">
+        <a (click)="backToBuy()">procedi agli acquisti!</a>
+      </div>
+    </div>
+    <div *ngIf="!isCarrelloEmpty" fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+      <div class="container-carrello" fxFlex="0 0 15vh" fxLayout fxLayoutAlign="start"
+        *ngFor="let tipologia of carrello">
+        <div style="height: 100%;"><img src="../../../../../assets/biglietto.svg" style="height: 100%;"></div>
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-carrello">
+            <span>{{tipologia.titolo}}</span><span>{{(tipologia.prezzo_full * tipologia.buyCountAdult +
+                                  tipologia.prezzo_child * tipologia.buyCountChild).toFixed(2)}}€</span>
+          </div>
+          <!-- <div fxFlex style="background-color: green;"></div> -->
+          <div fxFlex fxLayout fxLayoutAlign="space-around center" class="qta-entry-carrello">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+              <div fxLayout="column" fxLayoutAlign="start center"><span>Q.tà</span> <span
+                  style="font-weight: 500;">adulti</span></div>
+              <span>:</span>
+              <mat-form-field appearance="outline" class="selectQta" fxLayout fxLayoutAlign="start center">
+                <mat-select [(ngModel)]="tipologia.buyCountAdult" (selectionChange)="calcolaPrezzo()">
+                  <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                    {{num}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+              <div fxLayout="column" fxLayoutAlign="start center"><span>Q.tà</span> <span
+                  style="font-weight: 500;">minori</span>
+              </div>
+              <span>:</span>
+              <mat-form-field appearance="outline" class="selectQta" fxLayout fxLayoutAlign="start center">
+                <mat-select [(ngModel)]="tipologia.buyCountChild" (selectionChange)="calcolaPrezzo()">
+                  <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                    {{num}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="warning" fxLayout fxLayoutAlign="center center" *ngIf="areBigliettiAvaibles && !isCarrelloEmpty">
+      <mat-icon>report</mat-icon>Attenzione! Hai 0{{min}}: <span *ngIf="sec < 10">0</span>{{sec}} per completare l'ordine
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="!areBigliettiAvaibles && !isCarrelloEmpty">
+      <div class="warning" fxLayout fxLayoutAlign="center center">
+        <mat-icon>report</mat-icon>Attenzione! Alcuni dei biglietti selezionati non sono disponibili.
+      </div>
+      <div class="link">
+        <a (click)="navigateToBiglietti()">Torna indietro</a>
+      </div>
+    </div>
+    <div fxLayout style="height: 10vh;width: 100%;" class="totaleContainerMobile">
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-around stretch" style="padding: 0 10px; font-size: 16px;">
+        <div fxLayout fxLayoutAlign="space-between">Totale al cliente: <span class="prezzo">{{prezzoCliente.toFixed(2)}}€</span></div>
+        <div fxLayout fxLayoutAlign="space-between">Totale al rivenditore: <span class="prezzo">{{prezzoRivenditore.toFixed(2)}}€</span></div>
+      </div>
+      <div fxFlex="40" fxLayout fxLayoutAlign="center center" style="padding: 0 15px;">
+        <button mat-raised-button color="primary" (click)="procedi()" [disabled]="!areBigliettiAvaibles">
+          Procedi
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

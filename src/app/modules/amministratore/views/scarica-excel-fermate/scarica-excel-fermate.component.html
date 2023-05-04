@@ -1,0 +1,74 @@
+<div fxLayout class="fullScreenContainer">
+
+  <div fxLayout="column" class="listColumn tableBg" fxFlex="15">
+      <div class="genericHeader listHeader" fxLayout fxLayoutAlign="center center">
+          <span class="headerText"> Seleziona Operatori </span>
+      </div>
+      <div fxLayout fxLayoutAlign="center center">
+          <mat-form-field appearance="standard" style="width: 80%;">
+              <mat-label>Cerca rivenditore</mat-label>
+              <input matInput [(ngModel)]="nome" (input)="filterItem(input.value)" placeholder="Ex. Mario" #input>
+              <button mat-button *ngIf="nome" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput()">
+            <mat-icon>close</mat-icon>
+        </button>
+          </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+          <!-- <a (click)="test()">
+      <mat-icon>library_add_check</mat-icon>
+    </a> -->
+          <!-- <div class="selectModeButton">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon class="selectButton" *ngIf="inputMode === 'add'">add</mat-icon>
+        <mat-icon class="selectButton" *ngIf="inputMode === 'edit'">edit</mat-icon>
+      </button>
+          </div> -->
+
+          <ng-container>
+              <button mat-icon-button color="primary" (click)="selectAll()" matTooltip="Seleziona tutti">
+        <mat-icon>library_add_check</mat-icon>
+      </button>
+              <button mat-icon-button color="primary" (click)="deselectAll()" matTooltip="Deseleziona tutti">
+        <mat-icon>indeterminate_check_box</mat-icon>
+      </button>
+          </ng-container>
+      </div>
+      <mat-divider></mat-divider>
+
+      <ng-container>
+        <mat-selection-list fxFlex #distributoriAdd color="primary" [disableRipple]="true" style="overflow-y: auto;">
+            <mat-list-option *ngFor="let dis of listaOperatori" [value]="dis">
+                {{dis?.utente?.nome}}
+            </mat-list-option>
+        </mat-selection-list>
+    </ng-container>
+
+      <mat-divider></mat-divider>
+      <div style="height: 50px; padding: 0 5%;" fxLayout fxLayoutAlign="end center">
+          <!-- <button mat-raised-button color="primary" style="height: 70%; margin: auto 0;" [disabled]="!distributoriAddSelect" (click)="scaricaExcel()">Scarica Excel</button> -->
+      </div>
+  </div>
+
+  <div fxLayout="column" class="listColumn tableBg" fxFlex="15" style="border-left: 0px solid;">
+    <div class="genericHeader listHeader" fxLayout fxLayoutAlign="center center">
+        <span class="headerText"> Seleziona Date </span>
+    </div>
+    <div fxLayout fxLayoutAlign="center start" fxFlex style="padding-top: 5%;">
+      <mat-form-field appearance="fill" style="width: 90%;">
+        <mat-label>Inserisci un intervallo di date</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Da" [formControl]="formMacro['controls'].dataDa">
+          <input matEndDate placeholder="A" [formControl]="formMacro['controls'].dataA">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <div style="height: 50px; padding: 0 5%;" fxLayout fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" style="height: 70%; margin: auto 0;" [disabled]="!distributoriAddSelect" (click)="scaricaExcel()">Scarica Excel</button>
+    </div>
+</div>
+
+</div>

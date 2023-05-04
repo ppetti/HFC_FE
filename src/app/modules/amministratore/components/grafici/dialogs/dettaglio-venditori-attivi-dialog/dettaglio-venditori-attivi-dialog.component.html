@@ -1,0 +1,113 @@
+
+<div fxLayout fxLayout.xs="column" fxLayout.sm="column" class="fullScreenContainer" style="overflow-y: auto;">
+
+  <div fxLayout="column" class="listColumn tableBg">
+    <div class="filter-title" fxLayout fxLayoutAlign="center center">
+      <mat-icon>filter_alt</mat-icon>Filtra
+    </div>
+      <mat-divider></mat-divider>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center" style="width: 90%">
+        <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div mat-subheader><strong>Attivi o non attivi</strong></div>
+        </div>
+
+        <mat-slide-toggle [(ngModel)]="isChecked" color="primary" >Venditori Attivi</mat-slide-toggle>
+      </div>
+
+
+
+      <form [formGroup]="formMacro" fxLayout="column" fxLayoutAlign="space-around center" (submit)="submit()" style="width: 90%">
+
+
+      <div class="listToolbar" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div mat-subheader><strong>Periodo</strong></div>
+      </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Inserisci un intervallo di date</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Da" [formControl]="formMacro['controls'].dataDa">
+            <input matEndDate placeholder="A" [formControl]="formMacro['controls'].dataA">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <div fxLayout fxLayoutAlign="center" style="padding-bottom: 5%;margin-top: 10%;">
+          <button mat-raised-button color="primary" [disabled]="!formMacro.valid">
+              <mat-icon>filter_alt</mat-icon> Applica filtri
+          </button>
+      </div>
+
+      </form>
+
+
+
+  </div>
+
+  <div fxLayout="column" fxFlex >
+
+
+      <!-- <div fxLayout="row wrap" fxLayoutAlign="space-evenly center" style="overflow-y: auto;" >
+          <div  fxLayout="column" fxFlex="200px" *ngFor="let distributore of listaDistributori"
+          style="padding: 10px; margin-right: 7%;margin-left: 7%;margin-top: 20px;">
+          <div style="font-size: 16px;"><strong> {{distributore.nome}}</strong></div>
+          <div ><strong>Email: </strong></div>
+          <div >{{distributore.login}}</div>
+          <div><strong>Numero: </strong></div>
+          <div>{{distributore.telefono}}</div>
+        </div>
+
+
+      </div> -->
+      <div fxLayout="column" fxFlex="0 0 90%" style="overflow-y: auto;">
+
+        <div class="genericHeader" fxLayout fxLayoutAlign="center center">
+          <span class="headerText"> Dettagli report attività rivenditori</span>
+        </div>
+
+        <div *ngIf="listaDistributori.length == 0" fxLayout fxLayoutAlign="center center" style="font-size: 16px;margin: 40px;"> <strong> Nessun venditore è stato attivo nell'intervallo di tempo selezionato</strong> </div>
+        <div class="" style="width: 100%;" fxFlex fxLayout="column" *ngIf="listaDistributori.length > 0">
+          <!-- <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex></div>
+          </div> -->
+            <div fxFlex fxLayout="column" class="">
+              <table mat-table [dataSource]="dataSource" matSort >
+
+                <ng-container matColumnDef="nome">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NOME </th>
+                  <td mat-cell *matCellDef="let row"> {{row.nome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="login">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL </th>
+                  <td mat-cell *matCellDef="let row"> {{row.login}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefono">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
+                  <td mat-cell *matCellDef="let row"> {{row.telefono}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderHFC"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">Nessun elemento corrsiponde al filtro di ricerca "{{input.value}}"</td>
+                </tr> -->
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" fxFlex></mat-paginator>
+            </div>
+        </div>
+
+      </div>
+
+
+  </div>
+
+</div>
+
+
+

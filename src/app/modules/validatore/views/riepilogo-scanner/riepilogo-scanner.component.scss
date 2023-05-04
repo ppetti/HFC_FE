@@ -1,0 +1,62 @@
+@import '../../../../../assets/scss/baseValues';
+
+.response-card-succ {
+    padding: 5%;
+    width: 95%;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 2px solid $main_color;
+}
+
+.response-card-err {
+    padding: 5%;
+    width: 95%;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 2px solid $error_color;
+}
+
+.success-message {
+    font-size: 30px;
+    font-weight: 500;
+    color: $main_color;
+    text-align: center;
+}
+
+.error-message {
+    font-size: 30px;
+    font-weight: 500;
+    color: $error_color;
+    text-align: center;
+}
+
+.sub-title {
+    font-size: 18px;
+    margin-top: 3vh;
+    text-align: center;
+}
+
+.titoloMobileCard {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.descrizioneMobile {
+  font-size: 14px;
+}
+
+.card-biglietto {
+    width: 95%;
+    padding: 2%;
+    border: 1 px solid rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 5vh;
+}
+
+.hidden {
+  display: none !important;
+}

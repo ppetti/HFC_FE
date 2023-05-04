@@ -1,0 +1,25 @@
+<!-- Mobile -->
+<div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex fxHide.gt-sm
+  style="overflow-y: auto;">
+  <div fxLayout="column" class="container-backArrow">
+    <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToSelezioneCliente()">
+              <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Macrocategorie</span>
+    </div>
+    <div fxLayout fxLayoutAlign="space-between">
+        <span>Scegli una macrocategoria </span>
+    </div>
+  </div>
+  <div style="width: 80%;padding: .5vh;" *ngFor="let macrosettore of listaMacrosettori">
+    <mat-card class="macrosettore" (click)="selezionaMacrosettore(macrosettore.id)">
+
+      <div class="text" fxLayout fxLayoutAlign="center center">
+        {{macrosettore.nome}}
+      </div>
+    </mat-card>
+  </div>
+</div>

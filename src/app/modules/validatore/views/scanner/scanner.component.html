@@ -1,0 +1,51 @@
+<div style="height: 100%;">
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToHome()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">QR Code Scan</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Scannerizza QR Code </span>
+      </div>
+    </div>
+    <div style="height: 50px;overflow-y: hidden;margin-top: 5px;width: 90%;" fxLayout fxLayoutAlign="space-evenly">
+      <mat-form-field appearance="none" fxFlex="40">
+        <mat-label>Fermata</mat-label>
+        <mat-select [(ngModel)]="fermataSelezionata" (selectionChange)="selezioneFermata($event)"
+          [compareWith]="compareById">
+          <mat-option *ngFor="let ora of fermateList" [value]="ora">
+            {{ora.nomeVisualizzato}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="none" fxFlex="40">
+        <mat-label>Giro</mat-label>
+        <mat-select [(ngModel)]="giroSelezionato" (selectionChange)="selezioneGiro($event)"
+          [compareWith]="compareById">
+          <mat-option *ngFor="let giro of giriList" [value]="giro">
+            {{giro.nomeVisualizzato}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="height: calc(100% - 117px);overflow-y: hidden;">
+      <zxing-scanner (scanSuccess)="onSuccess($event)" (camerasNotFound)="camerasNotFoundHandler($event)"
+        [formats]="formatsEnabled" [tryHarder]="true" (scanError)="scanErrorHandler($event)"></zxing-scanner>
+
+      <div class="overlay">
+        <span>Inquadra un QR Code</span>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+</div>

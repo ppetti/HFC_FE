@@ -1,0 +1,21 @@
+@import "../../../../../assets/scss/_baseValues.scss";
+
+.box{
+  box-shadow: 5px 5px 5px rgb(190, 190, 190);
+  height: 90%;
+  background-color: white;
+}
+
+.filtri {
+  background-color: $header_color;
+  color: #F4F4F4;
+  font-family:"Helvetica Neue", sans-serif;
+  font-size: 22px;
+  height: 56px;
+  width: 100%;
+}
+
+.margini-verticali{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}

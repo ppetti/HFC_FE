@@ -1,0 +1,17 @@
+@import "../../../../../assets/scss/baseValues";
+
+:host {
+  height: 100%;
+}
+
+.macrosettore {
+  color: $header_color;
+  .text {
+    font-size: 20px;
+  }
+}
+
+
+.main-container {
+  height: 100%;
+}

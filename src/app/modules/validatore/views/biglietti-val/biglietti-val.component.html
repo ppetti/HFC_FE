@@ -1,0 +1,192 @@
+<div fxLayout="column" style="width: 100%;height: 100%;">
+  <!-- PC -->
+  <div fxFlex class="main-container" fxLayout="row wrap" fxLayoutAlign="flex-start" fxHide.lt-md fxLayoutGap="0px grid"
+    style="overflow-y: auto;">
+    <mat-card fxLayout="column" fxFlex="30%" class="bigliettoPC" *ngFor="let tipologia of allTipologie">
+      <div fxLayout>
+        <div mat-card-avatar class="ticketHeaderPC"></div>
+        <div class="titoloBigliettoPC">{{tipologia.titolo}}</div>
+        <div class="fill-spaces"></div>
+        <a matBadgePosition="after" matBadgeColor="primary" matBadge="10" matBadgeOverlap="false" matBadgeSize="medium"
+          style="margin-right: 10px;"></a>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between center" style="padding: 5px;">
+        <p>
+          {{tipologia.descrizione}}
+        </p>
+        <div>
+          <div class="prezzoMobile">Prezzo adulti: <span
+              class="highlight700">{{tipologia.prezzo_full.toFixed(2)}}€</span></div>
+          <div class="prezzoMobile">Prezzo minori: <span
+              class="highlight700">{{tipologia.prezzo_child.toFixed(2)}}€</span></div>
+        </div>
+      </div>
+      <div class="fill-spaces"></div>
+      <div fxLayout fxLayoutAlign="space-around center" style="padding-bottom: 10px;">
+        <div fxFlex="40%" fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+          <span>Adulti:</span>
+          <div>
+            <mat-form-field appearance="outline" class="selectQtaPC" fxLayout fxLayoutAlign="start center">
+              <mat-select [(ngModel)]="tipologia.buyCountAdult">
+                <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                  {{num}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="40%" fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+          <span>Minori:</span>
+          <div>
+            <mat-form-field appearance="outline" class="selectQtaPC" fxLayout fxLayoutAlign="start center">
+              <mat-select [(ngModel)]="tipologia.buyCountChild">
+                <mat-option name="value" *ngFor="let num of quantitaSelezionabili" [value]="num">
+                  {{num}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex fxHide.gt-sm
+    style="overflow-y: auto;">
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+          <div fxLayout fxLayoutAlign="center center">
+            <a (click)="backToSelezionaMacrosettore()">
+                <mat-icon>arrow_back</mat-icon>
+            </a>
+          </div>
+          <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Biglietti</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+          <span>Seleziona biglietti </span>
+      </div>
+    </div>
+
+    <div style="width: 90%;border-bottom: 1px black solid;padding: .5vh;" fxFlex="0 0 20vh" fxLayout
+      fxLayoutAlign="start" *ngFor="let tipologia of listaTipologieBiglietti">
+      <!-- <div fxFlex="30" fxLayout fxLayoutAlign="center center">
+      <img src="../../../../../assets/biglietto.svg" alt="Kiwi standing on oval" style="height: 35%;">
+    </div> -->
+      <div fxFlex="70" fxLayout="column">
+        <div fxFlex="70" fxLayout="column">
+          <div class="titoloMobileCard">{{tipologia.titolo}}</div>
+          <div class="descrizioneMobile">{{tipologia.descrizione}}</div>
+          <div class="fill-spaces"></div>
+        </div>
+        <div fxFlex="30" fxLayout="column">
+          <div *ngIf="!tipologia.macrosettore.gruppoSpeciale" class="prezzoMobile">Prezzo adulti: <span
+              class="highlight700">{{tipologia.prezzo_full.toFixed(2)}}€</span></div>
+          <div *ngIf="!tipologia.macrosettore.gruppoSpeciale" class="prezzoMobile">Prezzo minori: <span
+              class="highlight700">{{tipologia.prezzo_child.toFixed(2)}}€</span></div>
+        </div>
+      </div>
+      <div fxFlex style="height: 100%;" fxLayout="column" fxLayoutAlign="start">
+        <div fxFlex="40" fxLayout fxLayoutAlign="center center">
+          <img src="../../../../../assets/biglietto.svg" alt="Kiwi standing on oval" style="height: 100%;">
+          <a matBadgePosition="after" matBadgeColor="primary" [matBadge]="tipologia.nBigliettiDisponibili" matBadgeOverlap="false"
+            matBadgeSize="small"></a>
+        </div>
+        <!-- <div fxFlex="30" fxLayout="column" fxLayoutAlign="start">
+          <div fxLayout fxLayoutAlign="center center">
+            <div style="width: 100%;height: 100%;" fxLayout fxLayoutAlign="center center">
+              <span>Adulti:</span>
+              <button disableRipple mat-icon-button style="font-size: 18px;" [disabled]="tipologia.buyCountAdult <= 0"
+                (click)="tipologia.buyCountAdult = tipologia.buyCountAdult > 0 ? tipologia.buyCountAdult - 1 : tipologia.buyCountAdult = 0">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <div fxFlex class="mobileInput" fxLayout fxLayoutAlign="center">{{tipologia.buyCountAdult}}</div>
+              <button disableRipple mat-icon-button style="font-size: 18px;"
+                [disabled]="tipologia.buyCountAdult + tipologia.buyCountChild >= tipologia.bigliettiList.length"
+                (click)="tipologia.buyCountAdult = tipologia.buyCountAdult + 1">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="start">
+          <div fxLayout fxLayoutAlign="center center">
+            <span>Minori:</span>
+            <div style="width: 100%;height: 100%;" fxLayout fxLayoutAlign="center center">
+              <button disableRipple mat-icon-button style="font-size: 18px;" [disabled]="tipologia.buyCountChild <= 0"
+                (click)="tipologia.buyCountChild = tipologia.buyCountChild > 0 ? tipologia.buyCountChild - 1 : tipologia.buyCountChild = 0">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <div fxFlex class="mobileInput" fxLayout fxLayoutAlign="center">{{tipologia.buyCountChild}}</div>
+              <button disableRipple mat-icon-button style="font-size: 18px;"
+                [disabled]="tipologia.buyCountChild + tipologia.buyCountAdult >= tipologia.bigliettiList.length"
+                (click)="tipologia.buyCountChild = tipologia.buyCountChild + 1">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div> -->
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="start">
+          <div fxLayout fxLayoutAlign="center center" style="padding: 5px;">
+            <div style="width: 100%;height: 100%;" fxLayout fxLayoutAlign="center center">
+              <span>Adulti:</span>
+              <div fxFlex fxLayout fxLayoutAlign="center"  style="margin-right: 3% ;">{{tipologia.buyCountAdult}}</div>
+              <span *ngIf="!tipologia.macrosettore.gruppoSpeciale">Minori:</span>
+                <div *ngIf="!tipologia.macrosettore.gruppoSpeciale" fxFlex fxLayout fxLayoutAlign="center" >{{tipologia.buyCountChild}}</div>
+          </div>
+        </div>
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="start">
+          <div fxLayout fxLayoutAlign="center center">
+              <button mat-raised-button color="primary" style="width: 100%;" (click)="aggiungiBiglietto(tipologia)">
+                Aggiungi biglietto
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pasquale 26/02-->
+    <div class="main-container" fxLayout="column" fxLayoutAlign="center center"
+      *ngIf="listaTipologieBiglietti.length==0" fxFlex fxHide.gt-sm>
+      <div style="width: 100%;padding: .5vh;" fxLayoutAlign="center center" fxFlex="0 0 20vh">
+        <mat-card class="example-card" fxLayoutAlign="center center">
+          <mat-card-header>
+            <mat-card-title>Nessun biglietto disponibile per il Macrosettore selezionato</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </div>
+    <!-- Fine Pasquale-->
+  </div>
+
+
+
+  <div fxFlex.gt-sm="0 0 10vh" fxFlex.lt-md="0 0 10vh" style="background-color: transparent;position: sticky;" fxLayout
+    fxLayoutAlign="center center" fxLayoutGap="10px">
+    <!--<button mat-raised-button color="primary" [matMenuTriggerFor]="filterMenu">
+      <mat-icon>filter_list</mat-icon> Filtra
+    </button>
+    <mat-menu #filterMenu="matMenu" yPosition="above" fxLayout="column" style="max-width: none!important;">
+      <div class="filterMenuMobile" fxLayout="column" fxHide.gt-sm>
+        <span>TO DO Filtri (?) :</span>
+        <span>Per città</span>
+        <span>Titolo</span>
+        <span>Biglietti disponibili ?? </span>
+      </div>
+      <div class="filterMenuPC" fxLayout="column" fxHide.lt-md>
+        <span>TO DO Filtri (?) :</span>
+        <span>Per città</span>
+        <span>Titolo</span>
+        <span>Biglietti disponibili ?? </span>      </div>
+    </mat-menu> -->
+    <button mat-raised-button color="primary" (click)="aggiungiAlCarrello()" [disabled]="isGruppoSpeciale">
+      <mat-icon>shopping_cart</mat-icon> Aggiungi al carrello
+    </button>
+  </div>
+</div>
+<!--
+descrizione: "Test descrizione tipologia"
+durata: "24"
+id: "fa2f73f1-fcec-4a13-af02-ff277b5cbb9e"
+prezzo: 10
+titolo: "Titolonee" -->

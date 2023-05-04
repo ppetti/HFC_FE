@@ -1,0 +1,10 @@
+<div style="height: 100%; width: 100%;position: relative;overflow: hidden;" fxLayout fxLayoutAlign="center center">
+<!-- <div style="height: 100%; width: 100%; background-image: url(assets/colosseo.jpg);background-size: 100% 145%;background-repeat: no-repeat;background-position: center center;opacity: 0.5;" fxLayout fxLayoutAlign="center center"> -->
+  <img src="assets/colosseo.jpg" style="height: 145%;width: 100%; opacity: 0.4;" fxLayout fxHide="true" fxShow.gt-sm="true">
+  <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="30px" fxLayoutGap.lt-md="60px" style="position: absolute;">
+    <!-- <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="30px" fxLayoutGap.lt-md="60px"> -->
+    <div class="homePageTitle" style="margin: auto;">IOBUS</div>
+    <!-- <div class="homePageSubTitle" fxHide.lt-md>Accedi al servizio come distributore per acquistare i biglietti</div> -->
+    <button mat-raised-button class="hfcMainButton loginHomePageButton" (click)="openAccedi()">ACCEDI</button>
+  </div>
+</div>

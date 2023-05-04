@@ -1,0 +1,169 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+.detailButton {
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+}
+
+.detailButtonRight {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+}
+
+.icon-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  float: left;
+  width: 120px;
+  height: 120px;
+  margin-top: -10%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+  .boxBlue {
+      background-color: #118ab2;
+  }
+
+  .boxTeal {
+    background-color: #6bc9e9;
+}
+
+
+  .boxGreen {
+    background-color: #06d6a0;
+  }
+
+  .boxYellow {
+    background-color: #ffd166;
+  }
+
+  .boxRed {
+    background-color: #ef476f;
+  }
+
+  .boxBrightGreen {
+    background-color: #2deb59;
+  }
+
+  .boxTeal {
+    background-color: #6bc9e9;
+  }
+
+.boxPurple {
+  background-color: #cf2eca;
+  }
+
+.titolo {
+  grid-column: 2/10;
+  grid-row: 1/2;
+  color: #333;
+  font-style: normal;
+  font-weight: bolder;
+  font-family: sans-serif;
+  font-size: 18px;
+  text-shadow: transparent;
+  //line-height: 56;
+
+}
+.footer-title{
+  position: absolute;
+  bottom:0;
+  left: 0;
+  padding: 3%;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+
+}
+
+.sottotitolo{
+  float: left;
+  margin-left: 3%;
+
+}
+
+
+.wrapper{
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(10,auto);
+  grid-template-rows: repeat(10,auto);
+}
+.value{
+  grid-column: 5/6;
+  grid-row: 5/6;
+  font-size: 40px;
+  font-weight: bold;
+
+
+}
+
+.titolo1 {
+  grid-column: 2/10;
+  grid-row: 1/2;
+  color: #333;
+  font-style: normal;
+  font-weight: bolder;
+  font-family: sans-serif;
+  font-size: 14px;
+  text-shadow: transparent;
+  //line-height: 56;
+
+}
+
+.value1{
+  grid-column: 5/6;
+  grid-row: 2/3;
+  font-size: 20px;
+  font-weight: bold;
+
+
+}
+
+.titolo2 {
+  grid-column: 2/10;
+  grid-row: 5/6;
+  color: #333;
+  font-style: normal;
+  font-weight: bolder;
+  font-family: sans-serif;
+  font-size: 14px;
+  text-shadow: transparent;
+  //line-height: 56;
+
+}
+
+.value2{
+  grid-column: 5/6;
+  grid-row: 6/7;
+  font-size: 20px;
+  font-weight: bold;
+
+
+}
+
+

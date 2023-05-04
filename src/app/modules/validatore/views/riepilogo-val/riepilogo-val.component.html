@@ -1,0 +1,208 @@
+<div style="height: 100%">
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToCarrello()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Riepilogo</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Conferma acquisto </span>
+      </div>
+    </div>
+
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start center" style="overflow-y: auto;width: 100%;">
+
+      <div *ngIf="isGruppoSpeciale" class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Modello vendita gruppi</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <div class="info-icon">
+              <mat-icon>info</mat-icon>
+            </div>
+            <span>Nel caso di gruppi speciali è necessario compilare questo form</span>
+          </div>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field appearance="standard" style="width: 60%;">
+              <mat-label>Prezzo</mat-label>
+              <input matInput type="number" formControlName="prezzo" required>
+            </mat-form-field>
+          </form>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field appearance="standard" style="width: 60%;">
+              <mat-label>Nome gruppo</mat-label>
+              <input matInput formControlName="nomeGruppo" required>
+            </mat-form-field>
+          </form>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field appearance="standard" style="width: 60%;">
+              <mat-label>Numero persone</mat-label>
+              <input matInput type="number" formControlName="personeGruppo" required>
+            </mat-form-field>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Riepilogo Ordine</span>
+          </div>
+
+          <div fxFlex fxLayout="column" *ngFor="let biglietto of carrello">
+            <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+              <span><strong>{{biglietto.titolo}}:</strong></span>
+            </div>
+            <div *ngIf="biglietto.buyCountAdult != 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti interi emessi:</span><span>x{{biglietto.buyCountAdult}}</span>
+            </div>
+            <div *ngIf="biglietto.buyCountChild != 0" fxLayoutAlign="space-between" class="entry-sublist">
+              <span>n° biglietti ridotti emessi:</span><span>x{{biglietto.buyCountChild}}</span>
+            </div>
+
+            <br>
+
+          </div>
+
+          <!-- <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti interi:</span><span>x{{nAdulti}}</span>
+                    </div>
+                    <div fxLayout fxLayoutAlign="space-between" class="entry-sublist">
+                        <span>n° biglietti ridotti:</span><span>x{{nRidotti}}</span>
+                    </div> -->
+          <div fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>n° biglietti totali:</span><span>x{{nRidotti + nAdulti}}</span>
+          </div>
+          <div *ngIf="!isGruppoSpeciale" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>Totale:</span><span>{{prezzoCliente?.toFixed(2)}}€</span>
+          </div>
+          <div *ngIf="isGruppoSpeciale" fxLayout fxLayoutAlign="space-between" class="entry-sublist-bold">
+            <span>Totale:</span><span>{{this.SearchForm.value.prezzo?.toFixed(2)}}€</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Compila questionario</span>
+          </div>
+          <div fxLayout fxLayoutAlign="space-between" class="info-sublist">
+            <div class="info-icon">
+              <mat-icon>info</mat-icon>
+            </div>
+            <span>Compilando il breve questionario ci aiuterai a migliorare il nostro servizio. Grazie!</span>
+          </div>
+
+          <form [formGroup]="SearchForm" fxLayout fxLayoutAlign="center" class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Nazionalità</mat-label>
+              <mat-select formControlName="nazione" placeholder="nazione" [compareWith]="compareById">
+                <ng-container *ngFor="let nazione of listaNazioni">
+                  <mat-option [value]="nazione">{{nazione}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="!isGruppoSpeciale" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Tipologia gruppo</mat-label>
+              <mat-select formControlName="tipoGruppo" placeholder="Gruppo" [compareWith]="compareById">
+                <ng-container *ngFor="let tipoGruppo of tipoGruppoList">
+                  <mat-option [value]="tipoGruppo">{{tipoGruppo.descrizione}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="!isGruppoSpeciale" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Fermata</mat-label>
+              <mat-select formControlName="fermata" placeholder="Fermata" [compareWith]="compareById">
+                <ng-container *ngFor="let fermata of fermateList">
+                  <mat-option [value]="fermata">{{fermata.nomeVisualizzato}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+          <form *ngIf="!isGruppoSpeciale" [formGroup]="SearchForm" fxLayout fxLayoutAlign="center"
+            class="entry-sublist">
+            <mat-form-field style="width: 60%;">
+              <mat-label>Giro</mat-label>
+              <mat-select formControlName="giro" placeholder="Giro" [compareWith]="compareById">
+                <ng-container *ngFor="let giro of giriList">
+                  <mat-option [value]="giro">{{giro.nomeVisualizzato}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="container-riepilogo" fxLayout fxLayoutAlign="start">
+        <div fxFlex fxLayout="column">
+          <div fxLayout fxLayoutAlign="space-between" class="titolo-entry-riepilogo">
+            <span>Seleziona metodo di pagamento</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="card" fxLayout fxLayoutAlign="start center" [class.card-selected]="paymentMethod == 'cash'"
+              style="margin-bottom: 3%;" (click)="cardSelection('cash')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">payments</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga in contanti</span>
+                <span class="info-sublist">Cash payment</span>
+              </div>
+            </div>
+
+            <div class="card" fxLayout fxLayoutAlign="start center" style="margin-bottom: 3%;"
+              [class.card-selected]="paymentMethod == 'pos'" (click)="cardSelection('pos')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">credit_card</mat-icon>
+              </div>
+              <div fxFlex="55" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Paga con carta</span>
+                <span class="info-sublist">Credit card payment</span>
+              </div>
+            </div>
+
+            <div *ngIf="isGruppoSpeciale" class="card" fxLayout fxLayoutAlign="start center" style="margin-bottom: 5%;"
+              [class.card-selected]="paymentMethod == 'no'" (click)="cardSelection('no')">
+              <div fxFlex="25">
+                <mat-icon class="icon-size">card_giftcard</mat-icon>
+              </div>
+              <div fxFlex="70" fxLayout="column" fxLayoutAlign="center">
+                <span class="card-title">Nessun pagamento</span>
+                <span class="info-sublist">No payment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 10vh;width: 100%;">
+      <button mat-raised-button color="primary" (click)="acquista()"
+        [disabled]="this.SearchForm.valid == false || this.paymentMethod == null">
+        Acquista ora
+      </button>
+    </div>
+
+  </div>
+</div>

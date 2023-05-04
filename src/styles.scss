@@ -1,0 +1,139 @@
+/* You can add global styles to this file, and also import other style files */
+@import "assets/scss/baseValues";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.fill-spaces {
+  flex: 1 1 auto;
+}
+
+.hfcMainButton {
+  background-color: $main_color;
+  color: white !important;
+  max-height: 36px;
+}
+
+/* START restyling material angular */
+.selectQta {
+  margin-bottom: -.75em;
+  width: 48px;
+  font-size: 10px;
+  div.mat-form-field-wrapper{
+    padding-bottom: 0;
+    margin: 0;
+    width: 100%;
+  }
+  .mat-form-field-infix {
+    padding: .7em 0 .7em 0;
+  }
+  .mat-select-arrow-wrapper {
+    display: block;
+    margin-bottom: 0.1em;
+  }
+  .mat-select-value-text {
+    font-size: 12px;
+  }
+}
+
+.selectQtaPC {
+  // margin-bottom: -.75em;
+  width: 48px;
+  font-size: 10px;
+  div.mat-form-field-wrapper{
+    padding-bottom: 0;
+    margin: 0;
+    width: 100%;
+  }
+  .mat-form-field-infix {
+    padding: .7em 0 .7em 0;
+  }
+  .mat-select-arrow-wrapper {
+    display: block;
+    margin-bottom: 0.1em;
+  }
+  .mat-select-value-text {
+    font-size: 12px;
+  }
+}
+/* END restyling material angular */
+
+.full-screen-dialog {
+  height: 90%;
+  width: 95%;
+  margin: auto;
+  box-sizing: border-box;
+  mat-dialog-container {
+    overflow: hidden;
+    border-radius: 0;
+  }
+}
+
+// E'un floating fab button, non toccarlo
+.backButton {
+    background-color: $header_color!important;
+    color: $bg_color!important;
+    right: 6px!important;
+    bottom: 0!important;
+    position: absolute!important;
+    z-index: 100!important;
+    font-size: 24px!important;
+  }
+
+.tableHeaderHFC {
+  background-color: $header_color!important;
+  th {
+    color: $bg_color!important;
+    .mat-sort-header-container {
+      .mat-sort-header-arrow{
+        color: $bg_color!important;
+      }
+    }
+  }
+}
+
+.listForm {
+  mat-grid-tile {
+    font-size: 16px;
+  }
+}
+
+//sizing tabelle
+.table-position{
+  width: 90%;
+  margin: 7vh auto 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+//header contenente la back arrow in modalità mobile
+.container-backArrow {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.labelBackArrow {
+  font-size: 18px;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+.genericHeader {
+  background-color: $header_color;
+  min-height: 40px;
+}
+
+.headerText {
+  font-size: 16px;
+  color: $toolbar_color;
+}
+
+.fullScreenContainer {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+//fine back arrow mobile

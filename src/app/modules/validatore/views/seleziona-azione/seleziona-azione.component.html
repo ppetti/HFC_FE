@@ -1,0 +1,50 @@
+<div style="height: 100%;">
+  <!-- Mobile -->
+  <div fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm style="overflow-y: auto; height: 100%;">
+
+    <div fxFlex="35" class="welcome" fxLayout fxLayoutAlign="center center" style="width:100%;">
+      Benvenuto,<span>&nbsp;{{userInfo?.nome?.toUpperCase()}}</span>
+    </div>
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="start start" style="padding: 5%; width: 100%;">
+      <div fxFlex="10" class="text-style" style="width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+        Come desideri procedere?
+      </div>
+
+      <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-around center" style="padding: 5%; width: 100%;">
+        <!-- <div fxLayout>Fermata:
+          <mat-form-field appearance="fill">
+            <mat-label>Fermata</mat-label>
+            <mat-select [(ngModel)]="fermataSelezionata" (selectionChange)="test($event)">
+              <mat-option *ngFor="let ora of fermateList" [value]="ora">
+                {{ora}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <mat-card style="width:80%;" (click)="goToScan()" *ngIf="!userInfo?.onlyOpenBus">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon class="icon-size">qr_code_scanner</mat-icon>
+            </div>
+            <mat-card-title>Scanner QR Code</mat-card-title>
+            <mat-card-subtitle>Accedi alla fotocamera</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+        <mat-card style="width:80%;" (click)="navigateToBiglietti()">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon class="icon-size">store</mat-icon>
+            </div>
+            <mat-card-title>Acquista biglietti</mat-card-title>
+            <mat-card-subtitle>Seleziona biglietti</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</div>

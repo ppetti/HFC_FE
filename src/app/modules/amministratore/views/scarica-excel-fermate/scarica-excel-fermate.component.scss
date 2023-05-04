@@ -1,0 +1,34 @@
+@import "../../../../../assets/scss/_baseValues.scss";
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.tableBg {
+  background-color: white;
+}
+
+.listColumn {
+  border: 1px solid rgba($icon_color,.3);
+  .listHeader {
+    .headerText {
+      font-size: 16px;
+      color: $toolbar_color;
+    }
+  }
+
+  .listToolbar{
+    min-height: 40px;
+    padding-right: 10px;
+  }
+}
+
+.selectModeButton {
+  border-right: 1px solid rgba(0, 0, 0, 0.17);
+}
+
+.selectButton {
+  fill: $header_color!important;
+  color: $header_color!important;;
+}

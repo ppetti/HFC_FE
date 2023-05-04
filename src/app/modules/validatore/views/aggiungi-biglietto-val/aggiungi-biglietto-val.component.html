@@ -1,0 +1,32 @@
+<div class="title" fxLayout="row" fxLayoutAlign="space-between start" style="padding: 5%;">
+  <span><strong>Modifica quantità</strong></span>
+  <mat-icon (click)="close()" style="cursor: pointer;">clear</mat-icon>
+</div>
+<form [formGroup]="form" class="form-container" (submit)="submit()">
+
+  <div fxLayout="row" >
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxFlex="100">
+      <mat-form-field>
+        <mat-label>Biglietti adult</mat-label>
+        <input matInput type="number" formControlName="buyCountAdult">
+      </mat-form-field>
+
+    <mat-form-field *ngIf="!isGruppoSpeciale">
+      <mat-label>Biglietti child</mat-label>
+      <input matInput type="number" formControlName="buyCountChild" >
+
+    </mat-form-field>
+
+    </div>
+</div>
+
+  <div fxLayout="row" fxLayoutAlign="end" style="margin-top: 2vh">
+  <button mat-raised-button color="secondary" type="button" style="margin-right: 2%;" (click)="close()">
+      Annulla
+  </button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+      Salva
+  </button>
+  </div>
+</form>

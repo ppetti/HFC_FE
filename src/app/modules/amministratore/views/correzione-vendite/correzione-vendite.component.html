@@ -1,0 +1,135 @@
+<div class="fitriBox">
+  <div fxLayout="column" class="listColumn tableBg" >
+    <div fxLayout="row" class="filter-title filtri" fxLayout fxLayoutAlign="center center" >
+      <mat-icon >filter_alt</mat-icon>Filtri
+    </div>
+      <mat-divider></mat-divider>
+      <form [formGroup]="formMacro" fxLayout="row" class="filter-title" fxLayout fxLayoutAlign="center center" style="min-height: 100px;" (submit)="submit()">
+        <div fxFlex="20" fxLayoutAlign="center center">
+                      <mat-form-field >
+                          <mat-label>Operatore</mat-label>
+                          <input type="text"
+                                 aria-label="Number"
+                                 matInput
+                                 formControlName="operatore"
+                                 [matAutocomplete]="auto">
+                          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                              {{option.utente.nome}}
+                            </mat-option>
+                          </mat-autocomplete>
+
+                          <mat-error>
+                            <div *ngIf="!formMacro.valid">
+                              Selezionare una opzione
+                            </div>
+                          </mat-error>
+                        </mat-form-field>
+        </div>
+
+        <div fxFlex="20" fxLayoutAlign="center center">
+          <mat-form-field >
+            <mat-label>Inserisci una data</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Il" [formControl]="formMacro['controls'].data" disabled>
+              <mat-hint>Selezionare dal calendario</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- <div fxFlex="20" fxLayoutAlign="center center">
+          <mat-form-field >
+            <mat-label>Seleziona le tipologie</mat-label>
+            <mat-select [formControl]="formMacro['controls'].tipologiaList" [compareWith]="compareById" multiple>
+              <mat-option *ngFor="let tipologia of bigliettiPerTipo" [value]="tipologia">{{tipologia.titolo}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+
+        <div fxFlex="20" fxLayoutAlign="center center">
+          <mat-form-field >
+              <mat-label>Seleziona le tipologie</mat-label>
+              <input type="text"
+                     aria-label="Number"
+                     matInput
+                     formControlName="tipologiaList"
+                     [matAutocomplete]="autoTipologie">
+              <mat-autocomplete #autoTipologie="matAutocomplete" [displayWith]="displayTp.bind(this)">
+                <mat-option *ngFor="let tipologia of filteredTipologie | async" [value]="tipologia">
+                  {{tipologia.titolo}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error>
+                <div *ngIf="!formMacro.valid">
+                  Selezionare una opzione
+                </div>
+              </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="20" fxLayoutAlign="center center">
+          <button mat-raised-button style="flex:none" color="primary" [disabled]="!formMacro.valid">
+            <mat-icon>filter_alt</mat-icon> Applica filtri
+          </button>
+        </div>
+      </form>
+
+  </div>
+</div>
+<div *ngIf="listaBiglietti.length == 0" fxLayout fxLayoutAlign="center center" style="font-size: 16px;margin: 100px;"> <strong> Nessun biglietto trovato nell'intervallo di tempo selezionato</strong> </div>
+<div *ngIf="listaBiglietti.length > 0" class="table-position" style="margin-bottom: 5%;">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <!-- <mat-form-field style="margin-right: 1%;" fxFlex="20">
+      <mat-label>Cerca</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ricerca a tutto campo" #input>
+    </mat-form-field>
+    <div fxFlex></div> -->
+  </div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="titolo">
+          <th mat-header-cell *matHeaderCellDef > TIPOLOGIA BIGLIETTO </th>
+          <td mat-cell *matCellDef="let row"> {{row.titolo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="data">
+          <th mat-header-cell *matHeaderCellDef > ORARIO </th>
+          <td mat-cell *matCellDef="let row"> {{row.data}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nBigliettiInteri">
+          <th mat-header-cell *matHeaderCellDef > N° BIGLIETTI INTERI </th>
+          <td mat-cell *matCellDef="let row"> {{row.nBigliettiInteri}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nBigliettiRidotti">
+          <th mat-header-cell *matHeaderCellDef > N° BIGLIETTI RIDOTTI </th>
+          <td mat-cell *matCellDef="let row"> {{row.nBigliettiRidotti}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="azioni">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> AZIONI </th>
+          <td mat-cell *matCellDef="let row" >
+            <div fxLayout="row" fxLayoutAlign="end center">
+              <button mat-menu-item (click)="deleteBigliettoVenduto(row)">
+                <mat-icon>delete_forever</mat-icon>
+                <span>Elimina</span>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderHFC"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Nessun elemento corrsiponde al filtro di ricerca </td>
+        </tr>
+      </table>
+
+      <mat-paginator #paginatorTab1 [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
+</div>
+

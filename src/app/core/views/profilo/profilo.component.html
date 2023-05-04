@@ -1,0 +1,97 @@
+<div style="height: 100%">
+    <!-- PC -->
+    <div fxHide.lt-md>
+        <div fxLayout="row" fxLayoutAlign="center space-around" class= "main" style="width: 100%; margin-top: 10vh;">
+            <div fxLayout="column" fxLayoutAlign="space-between center" class="profile-container">
+                <div fxFlex class="icon-container">
+                    <mat-icon >account_circle</mat-icon>
+                </div>
+                <span class="welcome">Ciao,</span>
+                <span class="nome">{{userInfo?.nome}}</span>
+                <div fxLayout="column" fxLayoutAlign="space-between center" class="info-container">
+                    <mat-form-field class="input-container">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput disabled value="{{userInfo?.login}}">
+                    </mat-form-field>
+                    <mat-form-field class="input-container">
+                        <mat-label>Ruolo</mat-label>
+                        <input matInput disabled value="{{userInfo?.ruolo.nome_ruolo}}">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                        <mat-label>Titolare</mat-label>
+                        <input matInput disabled value="{{distributore?.titolare}}">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                        <mat-label>Città</mat-label>
+                        <input matInput disabled value="{{distributore?.citta}}">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                        <mat-label>Indirizzo</mat-label>
+                        <input matInput disabled value="{{distributore?.indirizzo}}">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore' && distributore?.abituale" class="input-container">
+                        <mat-label>Credito disponibile</mat-label>
+                        <input matInput disabled value="{{distributore?.credito}}">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout fxLayout="column" fxLayoutAlign="center center" class="utilities-container">
+                <button mat-raised-button class="exit" (click)="logOut()"><mat-icon>exit_to_app </mat-icon>Esci</button>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile -->
+    <div fxLayout="column" fxLayoutAlign="start center" fxHide.gt-sm>
+
+    <div fxLayout="column" class="container-backArrow">
+        <div fxLayout>
+            <div fxLayout fxLayoutAlign="center center">
+                <a (click)="backToHome()">
+                    <mat-icon>arrow_back</mat-icon>
+                </a>
+            </div>
+            <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">Profilo</span>
+        </div>
+        <div fxLayout fxLayoutAlign="space-between">
+            <span>Visualizza informazioni </span>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="space-between center" class="profile-container">
+        <div fxFlex class="icon-container">
+            <mat-icon >account_circle</mat-icon>
+        </div>
+        <span class="welcome">Ciao,</span>
+        <span class="nome">{{userInfo?.nome}}</span>
+        <div fxLayout="column" fxLayoutAlign="space-between center" class="info-container">
+            <mat-form-field class="input-container">
+                <mat-label>E-mail</mat-label>
+                <input matInput disabled value="{{userInfo?.login}}">
+            </mat-form-field>
+            <mat-form-field class="input-container">
+                <mat-label>Ruolo</mat-label>
+                <input matInput disabled value="{{userInfo?.ruolo.nome_ruolo}}">
+            </mat-form-field>
+            <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                <mat-label>Titolare</mat-label>
+                <input matInput disabled value="{{distributore?.titolare}}">
+            </mat-form-field>
+            <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                <mat-label>Città</mat-label>
+                <input matInput disabled value="{{distributore?.citta}}">
+            </mat-form-field>
+            <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore'" class="input-container">
+                <mat-label>Indirizzo</mat-label>
+                <input matInput disabled value="{{distributore?.indirizzo}}">
+            </mat-form-field>
+            <mat-form-field *ngIf="userInfo?.ruolo.nome_ruolo == 'Rivenditore' && distributore?.abituale" class="input-container">
+                <mat-label>Credito disponibile</mat-label>
+                <input matInput disabled value="{{distributore?.creditoDisponibile.toFixed(2)}}€">
+            </mat-form-field>
+
+        </div>
+        <button mat-raised-button class="exit" (click)="logOut()"><mat-icon>exit_to_app </mat-icon>Esci</button>
+    </div>
+
+
+</div>

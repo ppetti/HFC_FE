@@ -1,0 +1,72 @@
+@import "../../../../../assets/scss/baseValues";
+
+.list-alignment {
+    width: 100%;
+    text-align: initial;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+
+.list-alignment::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background: transparent;
+    }
+.item-list {
+    border-bottom: 1px solid $toolbar_color;
+}
+
+.mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: 0!important;
+}
+
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+    display: block;
+    height: 75px;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    padding: 0;
+}
+
+.titolo {
+    color: #333;
+    font-style: normal;
+    font-weight: bolder;
+    font-family: sans-serif;
+    font-size: 18px;
+    text-shadow: transparent;
+    //line-height: 56;
+
+}
+
+.subtitle {
+    color: #aaa;
+    font-style: normal;
+    font-weight: normal;
+    font-family: sans-serif;
+    font-size: 12px;
+    //line-height: 56;
+    text-shadow: transparent;
+}
+
+.ok-color {
+    background-color:#b2db9e;
+    border: 2px solid #91cc75;
+    color: white;
+}
+  
+.err-color {
+    background-color: #f39494;
+    border: 2px solid #ee6666;
+    color: white;
+  }
+
+.warn-color {
+    background-color: #fac858;
+    border: 2px solid #ffd700;
+    color: white;
+}
+

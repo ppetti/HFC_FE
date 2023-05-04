@@ -1,0 +1,74 @@
+@import "../../../../../assets/scss/_baseValues.scss";
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.listColumn {
+    border: 1px solid rgba($icon_color,.3);
+    .listHeader {
+      .headerText {
+        font-size: 16px;
+        color: $toolbar_color;
+      }
+    }
+  
+    .listToolbar{
+      min-height: 40px;
+      padding-right: 10px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
+
+  .tableBg {
+    background-color: white;
+  }
+
+  .message-input {
+      width: 90%;
+      margin: auto;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-top: 3%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      height: 75%;
+  }
+
+  textarea.mat-input-element{
+      resize: none;
+      height: 60vh;
+  }
+
+  @media only screen and (max-height: 804px) {
+    .message-input {
+      width: 90%;
+      margin: auto;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-top: 3%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      height: 65%;
+    }
+
+    textarea.mat-input-element{
+      resize: none;
+      height: 50vh;
+    }
+  }
+

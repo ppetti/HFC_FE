@@ -1,0 +1,2 @@
+<div *ngIf="dialog" echarts [options]="options" [loading]="isLoading" theme="macarons" class="demo-chart" style="height: 200%;" (chartInit)="onChartInit($event)"></div>
+<div *ngIf="!dialog" echarts [options]="options" [loading]="isLoading" theme="macarons" class="demo-chart" style="height: 200%;" (chartInit)="onChartInit($event)"></div>

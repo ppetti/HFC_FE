@@ -1,0 +1,26 @@
+@import "../../../../../assets/scss/baseValues";
+
+.welcome {
+    background-color: grey;
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    font-family: sans-serif;
+    span{
+        font-size: 30px;
+        font-weight: 700;
+        font-family: sans-serif;
+        color: $main_color;
+    }
+}
+
+.text-style {
+    color: $icon_color;
+    font-weight: 500;
+    font-size: 22px;
+    font-family: sans-serif;
+}
+
+.icon-size {
+    font-size: 40px;
+}

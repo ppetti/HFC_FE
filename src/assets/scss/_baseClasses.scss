@@ -1,0 +1,16 @@
+@import 'baseValues';
+
+%toolbar {
+  background-color: $toolbar_color;
+}
+
+%headerPage {
+  background-color: $header_color;
+  height: 56px;
+  color: white;
+}
+
+%bottomToolbar {
+  background-color: $toolbar_color;
+  height: 56px;
+}

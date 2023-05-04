@@ -1,0 +1,95 @@
+:host::ng-deep.mat-icon {
+  height: 24px;
+  width: 18px;
+  line-height: 24px;
+  font-size: 18px;
+}
+
+:host::ng-deep.mat-icon-button {
+  width: auto;
+  height: 100%;
+}
+
+.main-container {
+  width: 100%;
+  padding: 10px;
+}
+
+.ticketImage {
+      background-image: url('/assets/biglietto.svg') !important;
+      background-size: cover;
+      background-position: center center;
+}
+
+.titoloPCCard {
+  font-weight: 600;
+}
+
+.titoloMobileCard {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.descrizioneMobile {
+  font-size: 14px;
+}
+
+.prezzoMobile{
+  font-size: 14px;
+  .highlight700 {
+    font-weight: 600;
+  }
+}
+
+.mobileCounter {
+  font-size: 12px;
+  width: 100%;
+  font-weight: 500;
+}
+
+.mobileInput {
+  border: .5px solid grey;
+  padding: 1px;
+  font-size: 12px;
+  height: 24px;
+}
+
+.availableTicketsMobile {
+  text-align: center;
+  color: red;
+  font-size: 14px;
+}
+
+.filterMenuMobile {
+  height: 65vh;
+  width: 75vw;
+  padding: 0 15px;
+}
+
+.filterMenuPC {
+  height: 70vh;
+  width: 50vw;
+  padding: 0 15px;
+}
+
+.ticketHeaderPC {
+    background-image: url('/assets/biglietto.svg');
+  background-size: cover;
+}
+
+.bigliettoPC{
+  height: 20vh;
+  border: .7px solid black;
+  margin: 16px;
+  padding: 5px!important;
+}
+
+.titoloBigliettoPC {
+  font-size: 18px;
+  font-weight: 700;
+  padding-left: 5px;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}

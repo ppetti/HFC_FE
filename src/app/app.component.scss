@@ -1,0 +1,46 @@
+@import "../assets/scss/baseValues";
+
+:host {
+  height: 100%;
+  //TODO: Aggiungere colori referenziati
+  .active {
+    background-color: $main_color;
+    color: white;
+  }
+}
+
+mat-sidenav {
+  width: 50vw;
+}
+
+.HFCToolbar {
+  background-color: $header_color;
+
+  a {
+    color: $bg_color;
+  }
+
+  .headerElement {
+    color: $bg_color;
+  }
+}
+
+.mainBG {
+  background-color: $bg_color;
+}
+
+.sidenavEntry {
+  width: 100%;
+  .mat-button-wrapper {
+    width: 100%;
+  }
+}
+
+.loader-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: black;
+  opacity: 0.8;
+  z-index: 9999;
+}

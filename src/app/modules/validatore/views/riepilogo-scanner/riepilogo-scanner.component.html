@@ -1,0 +1,103 @@
+<div style="height: 100%;">
+  <!-- mobile -->
+  <div class="main-container" fxLayout="column" fxLayoutAlign="start center" fxFlex fxHide.gt-sm>
+    <div fxLayout="column" class="container-backArrow">
+      <div fxLayout>
+        <div fxLayout fxLayoutAlign="center center">
+          <a (click)="backToHome()">
+            <mat-icon>arrow_back</mat-icon>
+          </a>
+        </div>
+        <span fxFlex fxLayout fxLayoutAlign="start center" class="labelBackArrow">QR Code Scan</span>
+      </div>
+      <div fxLayout fxLayoutAlign="space-between">
+        <span>Riepilogo scanner </span>
+      </div>
+    </div>
+
+    <div class="response-card-succ" [class.response-card-err]="!isSuccess" fxLayout="column"
+      fxlayoutAlign="center center" style="margin-top: 7vh;">
+      <div class="success-message" [class.error-message]="!isSuccess" style="width: 100%;">
+        {{result}}
+      </div>
+      <div *ngIf="subTitle" class="sub-title">
+        {{subTitle}}
+      </div>
+    </div>
+
+    <div fxLayout fxLayoutAlign="start" class="card-biglietto" *ngIf="isSuccess">
+      <div fxFlex="70" fxLayout="column">
+        <div fxFlex="70" fxLayout="column">
+          <div class="titoloMobileCard">{{biglietto?.tipologiaBiglietto?.titolo}}</div>
+          <div class="descrizioneMobile">{{biglietto?.tipologiaBiglietto?.descrizione}}</div>
+          <div class="fill-spaces"></div>
+        </div>
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center" *ngIf="!(tipobiglietto == 3)">
+          <div *ngIf="biglietto?.bigliettoFull" class="descrizioneMobile">Biglietto adult</div>
+          <!-- <div *ngIf="biglietto?.bigliettoFull">
+                        Prezzo: <strong>{{biglietto?.tipologiaBiglietto.prezzo_full.toFixed(2)}}€</strong>
+                    </div> -->
+          <div *ngIf="!biglietto?.bigliettoFull" class="descrizioneMobile">Biglietto child</div>
+          <!-- <div *ngIf="!biglietto?.bigliettoFull">
+                        Prezzo:<strong> {{biglietto?.tipologiaBiglietto.prezzo_child.toFixed(2)}}€</strong>
+                    </div> -->
+
+        </div>
+      </div>
+
+      <div fxFlex style="height: 100%;" fxLayout="column" fxLayoutAlign="start">
+        <div fxFlex="40" fxLayout fxLayoutAlign="center center">
+          <img src="../../../../../assets/biglietto.svg" alt="Kiwi standing on oval" style="height: 100%;">
+        </div>
+        <div fxFlex="60" fxLayout="column" fxLayoutAlign="start">
+          <div class="fill-spaces"></div>
+          <div fxLayout fxLayoutAlign="center center">
+            <div>Data emissione: <strong>{{emissionDate}}</strong></div>
+          </div>
+          <div fxLayout fxLayoutAlign="center center" *ngIf="hasDataScadenza">
+            <div>Data scadenza: <strong>{{expirationDate}}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div fxLayout fxLayoutAlign="center center" style="margin-top: 20px;">
+        Selected Device: <select id="selected_device" (change)="onDeviceSelected($event)"></select>
+      </div>
+    <div fxFlex.gt-sm="0 0 10vh" fxFlex.lt-md="0 0 10vh" style="background-color: transparent;position: sticky;"
+      [class.hidden]="tipobiglietto && tipobiglietto != 1 &&  tipobiglietto != 3 ? false : true" fxLayout="column"
+      fxLayoutAlign="center space-between">
+
+      <div fxLayout fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" (click)="writeToSelectedPrinter()">
+          <mat-icon>print</mat-icon> stampa biglietto
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+      [class.hidden]="tipobiglietto && tipobiglietto == 3 ? false : true"
+      style="background-color: transparent;position: sticky;margin-top: 4vh;">
+      <!-- <div fxLayout fxLayoutAlign="center center">
+        Selected Device: <select id="selected_device_wave" (change)=onDeviceSelected(this);></select>
+      </div> -->
+      <div fxLayout fxLayoutAlign="center space-between" *ngFor="let bigl of bigliettiWave; let indexBigl = index">
+        <div fxLayout="column" fxLayoutAlign="center center" style="margin-top: 10px;">
+          <button mat-raised-button color="primary" (click)="writeToSelectedPrinterWave(bigl.idBigliettoWave, bigl)">
+            <mat-icon>print</mat-icon> stampa biglietto {{indexBigl+1}}
+          </button>
+          <span fxLayout fxLayoutAlign="center center" *ngIf="bigl.stampato && bigl.stampaCorretta == 1"
+            style="color: green; font-weight: bolder;">Stampa effettuata correttamente</span>
+          <span fxLayout fxLayoutAlign="center center" *ngIf="bigl.stampato && bigl.stampaCorretta == 2"
+            style="color: darkred; font-weight: bolder;">Errore nella stampa, riprovare</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout fxLayoutAlign="center center" style="height: 10vh;width: 100%;margin-top: 10vh;padding-bottom: 20px;">
+      <button mat-raised-button color="primary" (click)=onClickScan()>
+        <mat-icon>qr_code_scanner</mat-icon> Nuovo Scanner
+      </button>
+    </div>
+
+
+  </div>
+</div>

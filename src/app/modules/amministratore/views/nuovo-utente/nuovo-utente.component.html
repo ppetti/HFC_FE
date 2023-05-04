@@ -1,0 +1,98 @@
+<div class="title" fxLayout="row" fxLayoutAlign="space-between start">
+    <span *ngIf="utenteService.isModifica && !utenteService.isAggiungiCredito">Modifica Utente</span>
+    <span *ngIf="utenteService.isModifica && utenteService.isAggiungiCredito">Aggiungi credito</span>
+    <span *ngIf="!utenteService.isModifica && !utenteService.isAggiungiCredito">Nuovo Utente</span>
+    <mat-icon (click)="close()" style="cursor: pointer;">clear</mat-icon>
+</div>
+<form [formGroup]="utenteService.formUtente" class="form-container" (submit)="submit()">
+    <div fxLayout="row" *ngIf="!utenteService.isAggiungiCredito">
+        <div fxFlex fxLayout="column" style="padding: 0 10px 10px 0">
+            <mat-form-field>
+                    <mat-select formControlName="ruolo" placeholder="Ruolo" [compareWith]="compareById" required>
+                        <ng-container *ngFor="let ruolo of ruoli">
+                        <mat-option [value]="ruolo">{{ruolo.nome_ruolo}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput placeholder="prova@esempio.com" formControlName="login" required>
+                    <mat-error *ngIf="utenteService.formUtente['controls'].login.invalid">Inserire una mail valida!</mat-error>
+                </mat-form-field>
+                <mat-form-field *ngIf="this.utenteService.formUtente['controls'].ruolo.value?.nome_ruolo == 'Rivenditore'">
+                    <mat-label>Titolare</mat-label>
+                    <input matInput formControlName="titolare" >
+                </mat-form-field>
+
+                <mat-form-field *ngIf="this.utenteService.formUtente['controls'].ruolo.value?.nome_ruolo == 'Rivenditore'">
+                  <mat-label>Città</mat-label>
+                  <input matInput formControlName="citta" >
+                </mat-form-field>
+
+              <div *ngIf="this.utenteService.formUtente['controls'].ruolo.value?.nome_ruolo == 'Rivenditore'">
+                  <mat-label>E' abituale</mat-label>
+                  <!-- <mat-checkbox class="example-margin" formControlName="abituale">Checked</mat-checkbox> -->
+                  <input type="checkbox" formControlName="abituale" (click)="checkbox($event)" (keydown)="checkbox($event)" *ngIf="!(utenteService.formUtente['controls'].creditoDisponibile.value == utenteService.formUtente['controls'].creditoTotale.value)">
+                  <input type="checkbox" formControlName="abituale" *ngIf="utenteService.formUtente['controls'].creditoDisponibile.value == utenteService.formUtente['controls'].creditoTotale.value">
+              </div>
+        </div>
+        <div fxFlex fxLayout="column" style="padding: 0 0px 10px 10px">
+            <mat-form-field class="form-field">
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput required>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <mat-label>Numero di telefono</mat-label>
+              <input matInput placeholder="3331234678" formControlName="telefono" required>
+              <mat-error *ngIf="utenteService.formUtente['controls'].telefono.invalid">Inserire un numero di telefono valido</mat-error>
+          </mat-form-field>
+            <mat-form-field *ngIf="this.utenteService.formUtente['controls'].ruolo.value?.nome_ruolo == 'Rivenditore'">
+                <mat-label>Indirizzo</mat-label>
+                <input matInput formControlName="indirizzo">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="this.utenteService.formUtente['controls'].abituale.value == true">
+              <mat-label>Credito</mat-label>
+              <input matInput type="number" formControlName="creditoTotale" [readonly]="!(this.utenteService.distributore?.creditoDisponibile == this.utenteService.distributore?.creditoTotale)" >
+            </mat-form-field>
+
+            <mat-form-field *ngIf="this.utenteService.formUtente['controls'].abituale.value == true && utenteService.isModifica">
+              <mat-label>Nuovo credito disponibile:</mat-label>
+              <input matInput type="number" formControlName="creditoDisponibile" [readonly]="true">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div fxLayout="row" *ngIf="utenteService.isAggiungiCredito">
+
+      <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxFlex="100">
+        <mat-form-field *ngIf="this.utenteService.formUtente['controls'].abituale.value == true">
+          <mat-label>Credito da aggiungere</mat-label>
+          <input matInput type="number" formControlName="creditoAggiunto">
+        </mat-form-field>
+
+          <mat-form-field *ngIf="this.utenteService.formUtente['controls'].abituale.value == true">
+            <mat-label>Nuovo credito totale</mat-label>
+            <input matInput formControlName="creditoTotale" [readonly]="true">
+
+          </mat-form-field>
+
+
+
+        <mat-form-field *ngIf="this.utenteService.formUtente['controls'].abituale.value == true">
+          <mat-label>Nuovo credito disponibile:</mat-label>
+          <input matInput formControlName="creditoDisponibile" [readonly]="true">
+        </mat-form-field>
+
+      </div>
+  </div>
+
+    <div fxLayout="row" fxLayoutAlign="end" style="margin-top: 2vh">
+    <button mat-raised-button color="secondary" type="button" style="margin-right: 2%;" (click)="close()">
+        Annulla
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!utenteService.formUtente.valid">
+        Salva
+    </button>
+    </div>
+</form>

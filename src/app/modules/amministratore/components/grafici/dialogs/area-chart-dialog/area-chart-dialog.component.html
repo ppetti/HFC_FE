@@ -1,0 +1,28 @@
+<div style="width: 100%;height: 100%;" fxLayout="column">
+    <div fxFlex=80 fxLayout style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+      <div style="padding: 5%;" fxFlex>
+        <app-stacked-area-chart [options]="options" ></app-stacked-area-chart>
+      </div>
+    </div>
+    <!-- <div fxFlex fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+        <div class="filter-title" fxLayout fxLayoutAlign="center center">
+            <mat-icon>filter_alt</mat-icon>Filtra
+        </div>
+
+    </div> -->
+    <div fxFlex fxLayout="column" fxLayoutAlign="center center" style="width: 100%;">
+      <div class="filter-title" fxLayout fxLayoutAlign="center center">
+        <mat-icon>filter_alt</mat-icon>Filtra
+      </div>
+      <div  fxFlex=15></div>
+      <div  style="width: 100%;" class="list-border">
+        <mat-selection-list #month [multiple]="false" class="custom-list"
+          [(ngModel)]="selectedOption" (ngModelChange)="onNgModelChange($event)">
+          <mat-list-option *ngFor="let month of sortedMonths;" [value]="month"
+            [class.mese-selected]="month === months[mm - 1] && selectedOption == null">
+            {{month}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+</div>
